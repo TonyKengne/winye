@@ -68,4 +68,22 @@ class CursusController extends Controller
             ->route('admin.cursus.index')
             ->with('success', 'Cursus ajouté avec succès.');
     }
+    //delete cursus 
+    public function destroy($id)
+{
+    $cursus = Cursus::with('departements')->findOrFail($id);
+
+    // Vérifie si le cursus contient des départements
+    if ($cursus->departements->isNotEmpty()) {
+        return redirect()->route('admin.cursus.index')
+                         ->with('error', 'Vous devez supprimer les départements avant de supprimer ce cursus.');
+    }
+
+    // Supprime le cursus
+    $cursus->delete();
+
+    return redirect()->route('admin.cursus.index')
+                     ->with('success', 'Cursus supprimé avec succès.');
+}
+
 }

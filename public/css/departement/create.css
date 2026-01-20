@@ -1,0 +1,136 @@
+/* =================== */
+/* Palette principale */
+/* =================== */
+:root {
+    --violet-principal: #6f42c1;
+    --violet-fonce: #5a35a0;
+    --violet-clair: #f5f0fc;
+    --alert-violet-bg: #ede9f6;
+    --alert-violet-border: #8757e1fc;
+    --btn-rouge: #a03535;
+}
+
+/* =================== */
+/* Texte & icônes */
+/* =================== */
+.text-violet {
+    color: var(--violet-principal);
+}
+
+.fw-semibold {
+    font-weight: 600;
+}
+
+/* =================== */
+/* Boutons */
+/* =================== */
+
+/* Bouton violet principal */
+.btn-violet {
+    background-color: white;
+    color: var(--violet-fonce);
+    border: 1px solid var(--violet-fonce);
+    transition: all 0.3s;
+}
+.btn-violet:hover {
+    background-color: var(--violet-fonce);
+    color: #fff;
+}
+
+/* Bouton outline classique (ex: rouge) */
+.btn-outline {
+    background-color: white;
+    color: var(--btn-rouge);
+    border: 1px solid var(--btn-rouge);
+    transition: all 0.3s;
+}
+.btn-outline:hover {
+    background-color: var(--btn-rouge);
+    color: white;
+}
+
+/* Bouton outline violet */
+.btn-outline-violet {
+    background-color: white;
+    color: var(--violet-principal);
+    border: 1px solid var(--violet-principal);
+    transition: all 0.3s;
+}
+.btn-outline-violet:hover {
+    background-color: var(--violet-principal);
+    color: #fff;
+}
+
+/* =================== */
+/* Inputs & Selects */
+/* =================== */
+.form-control,
+.form-select {
+    border-radius: 0.25rem;
+    transition: all 0.2s;
+}
+
+/* Focus violet pour tous les inputs/selects */
+.border-violet-focus:focus {
+    border-color: var(--violet-principal);
+    box-shadow: 0 0 0 0.15rem rgba(111, 66, 193, 0.15);
+    outline: none;
+}
+
+/* Alert / accent violet */
+.border-violet {
+    border: 1px solid var(--alert-violet-border) !important;
+    background-color: var(--alert-violet-bg);
+}
+
+/* Select - limiter la taille des options */
+select.form-select {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+select.form-select option {
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+select.form-select:hover,
+select.form-select:focus {
+    background-color: var(--violet-clair);
+    color: var(--violet-principal);
+}
+
+/* =================== */
+/* Cartes / container */
+/* =================== */
+.card {
+    border-radius: 0.5rem;
+    background-color: white;
+    box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+}
+
+/* =================== */
+/* Autres styles utiles */
+/* =================== */
+.container-fluid {
+    padding: 2rem 1rem;
+}
+
+.d-flex {
+    display: flex;
+}
+.justify-content-between {
+    justify-content: space-between;
+}
+.justify-content-end {
+    justify-content: flex-end;
+}
+.align-items-center {
+    align-items: center;
+}
+.mb-3 { margin-bottom: 1rem; }
+.mb-4 { margin-bottom: 1.5rem; }
+.mt-3 { margin-top: 1rem; }
+.gap-2 { gap: 0.5rem; }
+.fw-bold { font-weight: 700; }

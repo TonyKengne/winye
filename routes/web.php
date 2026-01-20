@@ -8,6 +8,8 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\admin\CampusController;
 use App\Http\Controllers\admin\CursusController;
+use App\Http\Controllers\admin\DepartementController;
+use App\Models\Cursus;
 
 Route::get('/', function () {
     return view('welcome');
@@ -50,3 +52,15 @@ Route::delete('/campus/{campus}', [CampusController::class, 'destroy'])->name('a
 Route::get('/cursus', [CursusController::class, 'index'])->name('admin.cursus.index');
 Route::get('/cursus/create', [CursusController::class, 'create'])->name('admin.cursus.create');
 Route::post('/cursus', [CursusController::class, 'store'])->name('admin.cursus.store');
+Route::delete('/cursus/{cursus}', [CursusController::class, 'destroy'])->name('admin.cursus.destroy');
+
+Route::prefix('admin')->name('admin.')->group(function () {
+ Route::resource('departement', DepartementController::class)->except(['show']);
+
+Route::get('campus/{campus}/cursus', function ($campusId) {
+        return Cursus::where('campus_id', $campusId)
+            ->select('id', 'nom')
+            ->orderBy('nom')
+            ->get();
+    });
+   });
