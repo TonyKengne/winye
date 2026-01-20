@@ -1,0 +1,41 @@
+
+.text-violet {
+    color: #6f42c1;
+}
+
+.btn-violet {
+    background-color: #6f42c1;
+    color: #fff;
+    border: none;
+}
+
+.btn-violet:hover {
+    background-color: #5a35a0;
+    color: #fff;
+}
+
+.btn-outline-violet {
+    border: 1px solid #6f42c1;
+    color: #6f42c1;
+}
+
+.btn-outline-violet:hover {
+    background-color: #6f42c1;
+    color: #fff;
+}
+
+.border-violet {
+    border-color: #6f42c1 !important;
+}
+
+/* Cartes */
+.campus-card {
+    transition: transform .2s ease, box-shadow .2s ease;
+     box-shadow: 0 0.5rem 1rem rgba(9, 1, 20, 0.558);
+}
+
+.campus-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0.5rem 1rem rgba(25, 1, 31, 0.216);
+}
+

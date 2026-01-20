@@ -1,0 +1,66 @@
+/* Violet principal */
+.text-violet { color: #6f42c1; }
+
+.btn-violet {
+    background-color: white;
+    color: #5a35a0;
+    border: 1px solid #5a35a0;
+}
+.btn-violet:hover {
+    background-color: #5a35a0;
+    color: #fff;
+}
+
+.btn-outline {
+    background-color: white;
+    color: #a03535;
+    border: 1px solid #a03535;
+}
+.btn-outline:hover {
+    background-color: #a03535;
+    color: white;
+    border: 1px solid #a03535;
+}
+
+.btn-outline-violet {
+    border: 1px solid #6f42c1;
+    color: #6f42c1;
+}
+.btn-outline-violet:hover {
+    background-color: #6f42c1;
+    color: #fff;
+}
+
+/* Focus inputs */
+.border-violet-focus:focus {
+    border-color: #6f42c1;
+    box-shadow: 0 0 0 0.15rem rgba(111, 66, 193, 0.15);
+}
+
+/* Alert accent */
+.border-violet {
+    border:1px solid #8757e1fc !important;
+    background-color: #ede9f6;
+}
+
+/* Select - limiter la taille des options à celle du select */
+select.form-select {
+    width: 100%;            /* prend toute la largeur du parent */
+    max-width: 100%;        /* pas plus large */
+    box-sizing: border-box; /* inclut padding et border dans la largeur */
+}
+
+/* Option dans select */
+select.form-select option {
+    max-width: 100%;       /* limite la largeur de l’option */
+    white-space: nowrap;   /* éviter le retour à la ligne */
+    overflow: hidden;
+    text-overflow: ellipsis; /* tronque si trop long */
+}
+
+/* Hover/focus du select */
+select.form-select:hover,
+select.form-select:focus {
+    background-color: #f5f0fc;  /* violet très clair */
+    color: #6f42c1;
+}

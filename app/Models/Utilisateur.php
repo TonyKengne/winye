@@ -33,4 +33,9 @@ class Utilisateur extends Model
     {
         return $this->belongsTo(CompteUtilisateur::class, 'compte_utilisateur_id');
     }
+    public function filiere()
+    {
+        return $this->belongsTo(Filiere::class);
+    }
+
 }

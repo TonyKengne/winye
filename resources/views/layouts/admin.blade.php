@@ -62,7 +62,7 @@
 
     <ul>
     <li><a href="{{route('profil.index')}}" class="sidebar-link"><i class="bi bi-person text-light"></i> Profil </a> </li>
-    <li><a href="#" class="sidebar-link"><i class="bi bi-journal-text text-light"></i> Sujets</a></li>
+    <li><a href="{{route('admin.dashboard')}}" class="sidebar-link"><i class="bi bi-journal-text text-light"></i> Sujets</a></li>
     <li><a href="{{ route('admin.inscriptions') }}" class="sidebar-link"><i class="bi bi-person-check text-light"></i> Inscription</a></li>
     <li><a href="{{ route('notifications.index') }}" class="sidebar-link"><i class="bi bi-bell text-light"></i> Notifications</a></li>
     <li><a href="{{ route('admin.notifications.index') }}" class="sidebar-link"><i class="bi bi-send text-light"></i> Envoyer un message</a></li>

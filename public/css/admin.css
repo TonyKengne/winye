@@ -3,6 +3,27 @@
     --primary-blue-light: #2563eb;
     --primary-blue-dark: #1e40af;
     --bg-light: #f4f6fb;
+    /* Couleurs cartes cursus */
+.bg-soft-violet {
+    background: #6f42c1;
+}
+
+.bg-soft-blue {
+    background: #4f7cff;
+}
+
+.bg-soft-green {
+    background: #2fbf71;
+}
+
+.bg-soft-orange {
+    background: #ff9f43;
+}
+
+.bg-soft-teal {
+    background: #20c997;
+}
+
 }
 
 body {
