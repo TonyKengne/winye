@@ -9,7 +9,9 @@ use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\admin\CampusController;
 use App\Http\Controllers\admin\CursusController;
 use App\Http\Controllers\admin\DepartementController;
+use App\Http\Controllers\admin\FiliereController;
 use App\Models\Cursus;
+use App\Models\Departement;
 
 Route::get('/', function () {
     return view('welcome');
@@ -53,14 +55,22 @@ Route::get('/cursus', [CursusController::class, 'index'])->name('admin.cursus.in
 Route::get('/cursus/create', [CursusController::class, 'create'])->name('admin.cursus.create');
 Route::post('/cursus', [CursusController::class, 'store'])->name('admin.cursus.store');
 Route::delete('/cursus/{cursus}', [CursusController::class, 'destroy'])->name('admin.cursus.destroy');
-
+// departement
 Route::prefix('admin')->name('admin.')->group(function () {
  Route::resource('departement', DepartementController::class)->except(['show']);
-
 Route::get('campus/{campus}/cursus', function ($campusId) {
-        return Cursus::where('campus_id', $campusId)
-            ->select('id', 'nom')
-            ->orderBy('nom')
-            ->get();
-    });
+     return Cursus::where('campus_id', $campusId)->select('id', 'nom')->orderBy('nom')->get(); });
    });
+//filiere
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('filiere', FiliereController::class)->except(['show']);
+
+    // AJAX : récupérer les départements d’un cursus
+    Route::get('cursus/{cursus}/departements', function ($cursusId) {
+        return Departement::where('cursus_id', $cursusId)->select('id', 'nom')->orderBy('nom')->get();
+    });
+
+  
+
+
+});

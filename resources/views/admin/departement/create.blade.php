@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-<link rel="stylesheet" href="{{ asset('css/cursus/create.css') }}"> {{-- inclut ton CSS violet existant --}}
+<link rel="stylesheet" href="{{ asset('css/cursus/create.css') }}"> 
 
 <div class="container-fluid">
 

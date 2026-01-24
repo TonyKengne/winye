@@ -6,4 +6,5 @@
     <a href="{{ route('admin.campus.index') }}">campus</a>
     <a href="{{ route('admin.cursus.index') }}">cursus</a>
     <a href="{{ route('admin.departement.index') }}">departement</a>
+    <a href="{{ route('admin.filiere.index') }}">Filiere</a>
 @endsection
