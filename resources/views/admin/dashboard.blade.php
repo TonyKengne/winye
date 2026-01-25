@@ -7,4 +7,5 @@
     <a href="{{ route('admin.cursus.index') }}">cursus</a>
     <a href="{{ route('admin.departement.index') }}">departement</a>
     <a href="{{ route('admin.filiere.index') }}">Filiere</a>
+    <a href="{{ route('admin.matiere.index') }}">Matiere</a>
 @endsection

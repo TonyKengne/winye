@@ -10,6 +10,7 @@ class Filiere extends Model
     protected $fillable = [
         'nom',
         'departement_id',
+        'niveau_id',
     ];
 
     /**
@@ -24,12 +25,12 @@ class Filiere extends Model
         return $this->hasMany(Utilisateur::class);
     }
 
-    //relation avec les matieres
     public function matieres()
-    {
-        return $this->belongsToMany(Matiere::class, 'filiere_matiere')
-                    ->withPivot('niveau_id')
-                    ->withTimestamps();
-    }
+{
+    return $this->belongsToMany(
+        Matiere::class,
+        'filiere_matiere'
+    );
+}
 
 }

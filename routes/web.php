@@ -10,6 +10,7 @@ use App\Http\Controllers\admin\CampusController;
 use App\Http\Controllers\admin\CursusController;
 use App\Http\Controllers\admin\DepartementController;
 use App\Http\Controllers\admin\FiliereController;
+use App\Http\Controllers\Admin\MatiereController;
 use App\Models\Cursus;
 use App\Models\Departement;
 
@@ -64,13 +65,13 @@ Route::get('campus/{campus}/cursus', function ($campusId) {
 //filiere
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('filiere', FiliereController::class)->except(['show']);
-
     // AJAX : récupérer les départements d’un cursus
     Route::get('cursus/{cursus}/departements', function ($cursusId) {
-        return Departement::where('cursus_id', $cursusId)->select('id', 'nom')->orderBy('nom')->get();
-    });
-
-  
-
+        return Departement::where('cursus_id', $cursusId)->select('id', 'nom')->orderBy('nom')->get(); });
 
 });
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('matiere', MatiereController::class)
+        ->only(['index', 'create', 'store']);
+});
+  

@@ -66,7 +66,7 @@
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Niveau</label>
                     <select id="niveauSelect" name="niveau_id"
-                            class="form-select border-violet-focus" disabled required>
+                            class="form-select border-violet-focus"  required>
                         <option value="">-- Sélectionner un niveau --</option>
                         @foreach($niveaux as $niveau)
                             <option value="{{ $niveau->id }}">{{ $niveau->nom }}</option>

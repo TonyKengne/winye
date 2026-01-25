@@ -6,13 +6,29 @@ use Illuminate\Database\Eloquent\Model;
 
 class Matiere extends Model
 {
-     protected $fillable = ['code', 'nom'];
+     protected $fillable = [
+        'code',
+        'nom',
+        'niveau_id',
+        'semestre',
+    ];
 
-    // Une matière peut appartenir à plusieurs filières
+    /**
+     * Une matière appartient à un seul niveau
+     */
+    public function niveau()
+    {
+        return $this->belongsTo(Niveau::class);
+    }
+
+    /**
+     * Une matière est enseignée dans plusieurs filières
+     */
     public function filieres()
     {
-        return $this->belongsToMany(Filiere::class, 'filiere_matiere')
-                    ->withPivot('niveau_id')
-                    ->withTimestamps();
+        return $this->belongsToMany(
+            Filiere::class,
+            'filiere_matiere'
+        );
     }
 }

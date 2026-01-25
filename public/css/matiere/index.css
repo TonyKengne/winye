@@ -1,0 +1,97 @@
+/* =========================
+   Couleurs principales
+========================= */
+.text-violet { color: #6f42c1; }
+
+/* ===== Boutons ===== */
+.btn-violet {
+    background-color: #6f42c1;
+    color: #fff;
+    border: none;
+    transition: background-color 0.2s ease;
+}
+.btn-violet:hover {
+    background-color: #5a35a0;
+    color: #fff;
+}
+
+/* Bouton outline violet */
+.btn-outline-violet {
+    border: 1px solid #6f42c1;
+    color: #6f42c1;
+    background-color: #fff;
+    transition: all 0.2s ease;
+}
+.btn-outline-violet:hover {
+    background-color: #6f42c1;
+    color: #fff;
+}
+
+/* ===== Cartes Matières ===== */
+.card {
+    border-radius: 0.75rem;
+    transition: transform .2s ease, box-shadow .2s ease;
+    box-shadow: 0 0.4rem 1rem rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.6rem 1.2rem rgba(0,0,0,0.15);
+}
+
+/* Palette couleurs pour cartes Matières */
+.soft-violet    { background-color: #6f42c1; color: #fff; }
+.soft-blue      { background-color: #3b82f6; color: #fff; }
+.soft-green     { background-color: #10b981; color: #fff; }
+.soft-orange    { background-color: #f97316; color: #fff; }
+.soft-teal      { background-color: #3b837a; color: #fff; }
+.soft-pink      { background-color: #ecd8e2; color: #000; }
+.soft-indigo    { background-color: #6366f1; color: #fff; }
+.soft-yellow    { background-color: #facc15; color: #000; }
+.soft-cyan      { background-color: #06b6d4; color: #fff; }
+.soft-lime      { background-color: #84cc16; color: #fff; }
+.soft-rose      { background-color: #f43f5e; color: #fff; }
+.soft-purple    { background-color: #f783b6; color: #000; }
+.soft-sky       { background-color: #0ea5e9; color: #fff; }
+.soft-emerald   { background-color: #3b544c; color: #fff; }
+.soft-orange-light { background-color: #fb923c; color: #fff; }
+
+/* Badge matière */
+.badge {
+    font-weight: 500;
+    border-radius: 0.375rem;
+    padding: 0.4em 0.65em;
+    font-size: 0.85rem;
+}
+
+/* ===== Filtres ===== */
+.form-select-sm {
+    border: 1px solid #6f42c1;
+    border-radius: 0.375rem;
+    min-width: 150px;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.form-select-sm:focus,
+.form-select-sm:hover {
+    background-color: #f5f0fc;
+    border-color: #6f42c1;
+    outline: none;
+    box-shadow: none;
+}
+.form-select-sm option {
+    color: #6f42c1;
+    background-color: #fff;
+}
+.form-select-sm option:checked {
+    background-color: #f5f0fc;
+}
+
+/* ===== Texte ===== */
+.text-muted {
+    color: #6c757d !important;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 767px) {
+    .form-select-sm { width: 100%; }
+}

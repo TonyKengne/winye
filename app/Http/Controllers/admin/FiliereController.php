@@ -41,17 +41,19 @@ class FiliereController extends Controller
 }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'nom' => 'required|string|max:255',
-            'departement_id' => 'required|exists:departements,id',
-        ]);
+{
+    $data = $request->validate([
+        'nom'            => 'required|string|max:255',
+        'departement_id' => 'required|exists:departements,id',
+        'niveau_id'      => 'required|exists:niveaux,id', // <- ajouter le niveau
+    ]);
 
-        Filiere::create($request->all());
+    Filiere::create($data);
 
-        return redirect()->route('admin.filiere.index')
-                         ->with('success', 'Filière ajoutée avec succès.');
-    }
+    return redirect()->route('admin.filiere.index')
+                     ->with('success', 'Filière ajoutée avec succès.');
+}
+
 
     public function destroy(Filiere $filiere)
     {

@@ -15,10 +15,7 @@ class Niveau extends Model
 
     //relation avec les matieres
     public function matieres()
-    {
-        return $this->belongsToMany(Matiere::class, 'filiere_matiere')
-                    ->withPivot('filiere_id')
-                    ->withTimestamps();
-    }
-
+{
+    return $this->hasMany(Matiere::class);
+}
 }
