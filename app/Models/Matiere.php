@@ -31,4 +31,9 @@ class Matiere extends Model
             'filiere_matiere'
         );
     }
+    public function sujets()
+    {
+        return $this->hasMany(Sujet::class);
+    }
+
 }

@@ -72,6 +72,24 @@ body {
     padding-top: 1rem;
     transition: transform 0.3s ease;
 }
+.sidebar {
+    height: 100vh;
+    overflow: hidden;
+    padding-bottom: 50px;
+}
+
+.sidebar-content {
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 90px; 
+    scrollbar-width: none; 
+}
+
+.sidebar-content::-webkit-scrollbar {
+    display: none; 
+}
+
+
 
 .sidebar-logo {
     width: 60px;
@@ -115,7 +133,7 @@ body {
 /* ===== CONTENT ===== */
 .content {
     margin-left: 240px;
-    padding: 90px 2rem 2rem;
+    padding: 90px 2rem 70px;
 }
 
 /* ===== PROFILE ===== */
@@ -148,6 +166,36 @@ body {
 .logout-icon {
     display: none;
 }
+/* ===== FOOTER ===== */
+.admin-footer {
+    position: fixed;
+    bottom: 0;
+    left: 240px; /* largeur sidebar */
+    right: 0;
+
+    height: 50px;
+    background: white;
+    border-top: 1px solid #e5e7eb;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 1.5rem;
+    font-size: 0.85rem;
+    color: #6b7280;
+
+    z-index: 900;
+}
+
+.footer-text {
+    font-weight: 500;
+}
+
+.footer-version {
+    font-size: 0.8rem;
+    color: #9ca3af;
+}
+
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 992px) {
@@ -178,7 +226,11 @@ body {
     .profile-welcome{
         display:none;
     }
+    .admin-footer {
+    left: 0;
+    }
 
 
+ 
 }
 

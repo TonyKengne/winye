@@ -148,5 +148,13 @@ class MatiereController extends Controller
                      ->with('success', 'Matière ajoutée avec succès');
 }
 
+public function destroy(Matiere $matiere)
+{
+    $matiere->delete();
+
+    return redirect()->route('admin.matiere.index')
+                     ->with('success', 'Matière supprimée avec succès.');
+}
+
 
 }

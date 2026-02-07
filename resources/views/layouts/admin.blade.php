@@ -59,20 +59,109 @@
 <!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
     <div class="sidebar-logo">W</div>
-
+<div class="sidebar-content">
     <ul>
-    <li><a href="{{route('profil.index')}}" class="sidebar-link"><i class="bi bi-person text-light"></i> Profil </a> </li>
-    <li><a href="{{route('admin.dashboard')}}" class="sidebar-link"><i class="bi bi-journal-text text-light"></i> Sujets</a></li>
-    <li><a href="{{ route('admin.inscriptions') }}" class="sidebar-link"><i class="bi bi-person-check text-light"></i> Inscription</a></li>
-    <li><a href="{{ route('notifications.index') }}" class="sidebar-link"><i class="bi bi-bell text-light"></i> Notifications</a></li>
-    <li><a href="{{ route('admin.notifications.index') }}" class="sidebar-link"><i class="bi bi-send text-light"></i> Envoyer un message</a></li>
+
+    {{-- PROFIL --}}
+    <li>
+        <a href="{{ route('profil.index') }}" class="sidebar-link">
+            <i class="bi bi-person text-light"></i> Profil
+        </a>
+    </li>
+
+    {{-- DASHBOARD --}}
+    <li>
+        <a href="{{ route('admin.dashboard') }}" class="sidebar-link">
+            <i class="bi bi-speedometer2 text-light"></i> Tableau de bord
+        </a>
+    </li>
+    <li> 
+    <a href="{{ route('admin.sujet.validation') }}" class="sidebar-link">
+        <i class="bi bi-check2-square text-light"></i> Validation des sujets
+    </a>
+    </li>
+    <li>
+    <a href="{{ route('admin.corrige.index') }}" class="sidebar-link">
+        <i class="bi bi-file-earmark-check text-light"></i> Validation des corrigés
+    </a>
+</li>
 
 
-    {{--
-    <li><a href="#" class="sidebar-link"><i class="bi bi-gear"></i> Paramètres</a></li>
-    <li><a href="#" class="sidebar-link"><i class="bi bi-people"></i> Utilisateurs</a></li>
-    --}}
+    {{-- GESTION ACADÉMIQUE --}}
+    <li class="sidebar-title text-uppercase text-light mt-3 px-3 small">
+        Gestion académique
+    </li>
+
+    <li>
+        <a href="{{ route('admin.campus.index') }}" class="sidebar-link">
+            <i class="bi bi-building text-light"></i> Campus
+        </a>
+    </li>
+
+    <li>
+        <a href="{{ route('admin.cursus.index') }}" class="sidebar-link">
+            <i class="bi bi-diagram-3 text-light"></i> Cursus
+        </a>
+    </li>
+
+    <li>
+        <a href="{{ route('admin.departement.index') }}" class="sidebar-link">
+            <i class="bi bi-diagram-2 text-light"></i> Départements
+        </a>
+    </li>
+
+    <li>
+        <a href="{{ route('admin.filiere.index') }}" class="sidebar-link">
+            <i class="bi bi-collection text-light"></i> Filières
+        </a>
+    </li>
+
+    <li>
+        <a href="{{ route('admin.matiere.index') }}" class="sidebar-link">
+            <i class="bi bi-book text-light"></i> Matières
+        </a>
+    </li>
+
+    <li>
+        <a href="{{ route('admin.sujet.index') }}" class="sidebar-link">
+            <i class="bi bi-journal-text text-light"></i> Sujets
+        </a>
+    </li>
+
+    <li>
+        <a href="{{ route('admin.corrige.create') }}" class="sidebar-link">
+            <i class="bi bi-file-earmark-check text-light"></i> Ajouter un corrigé
+        </a>
+    </li>
+
+    {{-- INSCRIPTIONS --}}
+    <li class="sidebar-title text-uppercase text-light mt-3 px-3 small">
+        Administration
+    </li>
+
+    <li>
+        <a href="{{ route('admin.inscriptions') }}" class="sidebar-link">
+            <i class="bi bi-person-check text-light"></i> Inscriptions
+        </a>
+    </li>
+
+    <li>
+        <a href="{{ route('notifications.index') }}" class="sidebar-link">
+            <i class="bi bi-bell text-light"></i> Notifications
+        </a>
+    </li>
+
+    <li>
+        <a href="{{ route('admin.notifications.index') }}" class="sidebar-link">
+            <i class="bi bi-send text-light"></i> Envoyer un message
+        </a>
+    </li>
+    
+
+   
+
 </ul>
+</div>
 </div>
 
 <!-- CONTENU -->
@@ -89,6 +178,17 @@
         sidebar.classList.toggle('active');
     });
 </script>
+<footer class="admin-footer">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <span class="footer-text">
+            © {{ date('Y') }} Winye — Tous droits réservés
+        </span>
+
+        <span class="footer-version">
+            Admin Panel v1.0
+        </span>
+    </div>
+</footer>
 
 </body>
 </html>

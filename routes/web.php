@@ -11,6 +11,9 @@ use App\Http\Controllers\admin\CursusController;
 use App\Http\Controllers\admin\DepartementController;
 use App\Http\Controllers\admin\FiliereController;
 use App\Http\Controllers\Admin\MatiereController;
+use App\Http\Controllers\Admin\SujetController;
+use App\Http\Controllers\Admin\CorrigeController;
+use App\Http\Controllers\Admin\SujetValidationController;
 use App\Models\Cursus;
 use App\Models\Departement;
 
@@ -71,7 +74,21 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 });
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::resource('matiere', MatiereController::class)
-        ->only(['index', 'create', 'store']);
+    Route::resource('matiere', MatiereController::class)->only(['index', 'create', 'store','destroy']);
 });
+Route::prefix('admin')->name('admin.')->group(function () {
+
+    Route::resource('sujet', SujetController::class)->only(['index', 'create', 'store', 'destroy', 'show']);
+    Route::get('sujets/validation', [SujetValidationController::class, 'index'])->name('sujet.validation');
+    Route::post('sujets/{sujet}/statut', [SujetValidationController::class, 'updateStatut'])->name('sujet.statut');
+});
+Route::get('/admin/corriges/create',[CorrigeController::class, 'create'])->name('admin.corrige.create');
+Route::post('/admin/corriges',[CorrigeController::class, 'store'])->name('admin.corrige.store');
+Route::get('/admin/corriges/{corrige}', [CorrigeController::class, 'show'])->name('admin.corrige.show');
+Route::prefix('admin')->name('admin.')->group(function () {
+
+    Route::get('corriges', [CorrigeValidationController::class, 'index'])->name('corrige.index');
+    Route::post('corriges/{corrige}/statut', [CorrigeValidationController::class, 'updateStatut'])->name('corrige.updateStatut');
+});
+
   

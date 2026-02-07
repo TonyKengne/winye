@@ -1,5 +1,4 @@
-{{-- STYLES LOCAUX --}}
-<style>
+
 .text-violet { color: #6f42c1; }
 
 /* Boutons */
@@ -91,4 +90,4 @@
     .filter-select { width: 100%; }
     .option-delete.d-md-inline { display: none !important; } /* caché par défaut sur mobile */
 }
-</style>
+

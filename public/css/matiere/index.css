@@ -32,7 +32,7 @@
     border-radius: 0.75rem;
     transition: transform .2s ease, box-shadow .2s ease;
     box-shadow: 0 0.4rem 1rem rgba(0,0,0,0.1);
-    overflow: hidden;
+    overflow: visible;
 }
 .card:hover {
     transform: translateY(-2px);
@@ -89,6 +89,29 @@
 /* ===== Texte ===== */
 .text-muted {
     color: #6c757d !important;
+}
+/* Option bouton */
+.option-btn {
+    background: transparent; border: none;
+}
+.option-btn:hover {
+    background: rgba(255,255,255,0.15); border-radius: 50%;
+
+}
+
+/* Dropdown-like (supprimer toggle) */
+.option-delete {
+    background: rgba(255,255,255,0.25);
+    border: none;
+    border-radius: 0.375rem;
+    padding: 2px 8px;
+    display: flex; align-items: center;
+    color: #fff;
+    
+}
+
+.option-delete:hover {
+    background: rgba(255,255,255,0.35);
 }
 
 /* ===== Responsive ===== */

@@ -26,11 +26,16 @@ class Filiere extends Model
     }
 
     public function matieres()
-{
-    return $this->belongsToMany(
-        Matiere::class,
-        'filiere_matiere'
-    );
-}
+    {
+        return $this->belongsToMany(
+            Matiere::class,
+            'filiere_matiere'
+        );
+    }
+    public function sujets()
+    {
+        return $this->belongsToMany(Sujet::class, 'filiere_sujet');
+    }
+
 
 }
