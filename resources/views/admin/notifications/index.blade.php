@@ -72,78 +72,75 @@
     </div>
 </div>
 
-{{-- ================= STYLE ================= --}}
-<style>
-/* =====================
-   COULEURS
-===================== */
-:root {
-    --violet-primary: #6f42c1;
-    --violet-light: rgba(111, 66, 193, 0.12);
-}
 
-/* =====================
-   CARD
-===================== */
-.notification-card {
-    border-radius: 14px;
-    box-shadow: -4px 6px 15px rgba(0, 0, 0, 0.08);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
+<div class="container mt-5">
+    @foreach($notifications as $notif)
+        <div class="alert alert-info">
+            <strong>{{ $notif->titre }}</strong><br>
+            {{ $notif->message }} <br>
+            <small>{{ $notif->date_envoi }}</small>
+        </div>
+    @endforeach
 
-.notification-card:hover {
-    transform: translateY(-2px);
-    box-shadow: -6px 10px 22px rgba(0, 0, 0, 0.12);
-}
+    <h1>📂 Gestion des documents</h1>
 
-/* =====================
-   INPUTS / SELECTS
-===================== */
-.form-control,
-.form-select {
-    border-radius: 10px;
-}
+    <h2>En attente de validation</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Matière</th>
+                <th>Enseignant</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($documentsEnAttente as $doc)
+                <tr>
+                    <td>{{ $doc->titre }}</td>
+                    <td>{{ $doc->matiere->nom ?? 'N/A' }}</td>
+                    <td>{{ $doc->enseignant->email ?? 'N/A' }}</td>
+                    <td>{{ $doc->date_upload }}</td>
+                    <td>
+                        <form action="{{ route('admin.documents.valider', $doc->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-success btn-sm">✅ Valider</button>
+                        </form>
+                        <form action="{{ route('admin.documents.rejeter', $doc->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-danger btn-sm">❌ Rejeter</button>
+                        </form>
+                    </td>
+                </tr>
+            @empty
+                <tr><td colspan="5">Aucun document en attente</td></tr>
+            @endforelse
+        </tbody>
+    </table>
 
-.form-control:focus,
-.form-select:focus {
-    border-color: var(--violet-primary);
-    box-shadow: 0 0 0 0.15rem var(--violet-light);
-}
-
-/* =====================
-   BOUTON
-===================== */
-.btn-violet {
-    background-color: var(--violet-primary);
-    color: #fff;
-    border: none;
-    padding: 0.45rem 1.2rem;
-}
-
-.btn-violet:hover {
-    background-color: #5a34a0;
-    color: #fff;
-}
-</style>
-
-{{-- ================= JS ================= --}}
-<script>
-    const cible = document.getElementById('cible');
-    const roleSection = document.getElementById('role-section');
-    const userSection = document.getElementById('user-section');
-
-    cible.addEventListener('change', () => {
-        roleSection.classList.add('d-none');
-        userSection.classList.add('d-none');
-
-        if (cible.value === 'role') {
-            roleSection.classList.remove('d-none');
-        }
-
-        if (cible.value === 'utilisateur') {
-            userSection.classList.remove('d-none');
-        }
-    });
-</script>
-
+    <h2>Documents validés</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Matière</th>
+                <th>Enseignant</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($documentsValides as $doc)
+                <tr>
+                    <td>{{ $doc->titre }}</td>
+                    <td>{{ $doc->matiere->nom ?? 'N/A' }}</td>
+                    <td>{{ $doc->enseignant->email ?? 'N/A' }}</td>
+                    <td>{{ $doc->date_upload }}</td>
+                </tr>
+            @empty
+                <tr><td colspan="4">Aucun document validé</td></tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
 @endsection

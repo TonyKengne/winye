@@ -9,6 +9,7 @@ use App\Models\CompteUtilisateur;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -104,24 +105,25 @@ public function register(RegisterRequest $request)
                 ->with('error', 'Votre compte n’est pas encore activé.');
         }
 
-        //  Sécurité : vérifier que le profil utilisateur existe
+        // Vérifier que le profil existe
         if (!$compte->utilisateur) {
             Session::flush();
             return back()
                 ->with('error', 'Profil utilisateur introuvable. Contactez l’administrateur.');
         }
 
-        //  Mise en session (données essentielles)
+        // Authentification Laravel
+        Auth::login($compte);
+
+        // Mise en session (données essentielles)
         Session::put('compte_utilisateur_id', $compte->id);
         Session::put('role_id', $compte->role_id);
-
         Session::put('nom_utilisateur', $compte->utilisateur->nom);
         Session::put('prenom_utilisateur', $compte->utilisateur->prenom);
         Session::put('photo_profil', $compte->utilisateur->photo_profil);
 
         // Redirection selon le rôle
         switch ($compte->role_id) {
-
             case 1: // Étudiant
                 $route = 'utilisateur.dashboard';
                 break;
@@ -146,6 +148,8 @@ public function register(RegisterRequest $request)
             ->route($route)
             ->with('success', 'Connexion réussie ! Bienvenue sur Winye.');
     }
+
+
 
     /**
      * Déconnexion

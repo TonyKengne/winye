@@ -26,6 +26,7 @@ class NotificationController extends Controller
 
         return view('notifications.index', compact('notifications'));
     }
+    
 
     /**
      * Envoi d'une notification (admin)
@@ -50,6 +51,11 @@ class NotificationController extends Controller
 
         return back()->with('success', 'Notification envoyée avec succès.');
     }
+        public function contactAdmin()
+    {
+        return view('notifications.contact-admin');
+    }
+
 
     /**
      * Marquer une notification comme lue
@@ -69,18 +75,20 @@ class NotificationController extends Controller
      /**
      * Interface admin : voir & envoyer des notifications
      */
-    public function adminIndex()
+   public function adminIndex()
     {
-        $roles = Role::all();
-        $utilisateurs = CompteUtilisateur::with('role')
-            ->orderBy('email')
+        // Récupérer toutes les notifications destinées à l’admin
+        $notifications = Notification::where('destinataire_role_id', 4)
+            ->orderBy('date_envoi', 'desc')
             ->get();
 
-        return view('admin.notifications.index', compact(
-            'roles',
-            'utilisateurs'
-        ));
+        // Récupérer les documents en attente et validés
+        $documentsEnAttente = Document::where('valide', 0)->get();
+        $documentsValides   = Document::where('valide', 1)->get();
+
+        return view('notifications.index', compact('notifications', 'documentsEnAttente', 'documentsValides'));
     }
+
 
     /**
      * Envoi d'une notification (ADMIN)

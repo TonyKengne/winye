@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+//use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class CompteUtilisateur extends Model
+class CompteUtilisateur extends Authenticatable
 {
     protected $table = 'compte_utilisateurs';
 
@@ -32,11 +33,14 @@ class CompteUtilisateur extends Model
     {
         return $this->belongsTo(Role::class);
     }
-
-    public function utilisateur()
+    public function utilisateur() 
     {
-        return $this->hasOne(Utilisateur::class);
+         return $this->hasOne(Utilisateur::class, 'compte_utilisateur_id');
     }
+    // public function utilisateur()
+    // {
+    //     return $this->hasOne(Utilisateur::class);
+    // }
     public function notifications()
 {
     return $this->hasMany(Notification::class);
