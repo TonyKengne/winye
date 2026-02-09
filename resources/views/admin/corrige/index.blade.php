@@ -5,10 +5,15 @@
 
     {{-- HEADER --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="fw-bold">
-            <i class="bi bi-check2-square text-primary"></i>
-            Validation des corrigés
-        </h3>
+        <div>
+            <h3 class="fw-bold mb-1">
+                <i class="bi bi-check2-square text-primary"></i>
+                Validation des corrigés
+            </h3>
+            <small class="text-muted">
+                {{ $sujets->count() }} corrigé(s) à examiner
+            </small>
+        </div>
     </div>
 
     {{-- ALERTS --}}
@@ -24,120 +29,148 @@
         </div>
     @endif
 
-    {{-- TABLE --}}
-    <div class="card shadow-sm border-0">
+    {{-- TABLE CARD --}}
+    <div class="card border-0 shadow-sm">
         <div class="card-body p-0">
+
             <table class="table table-hover align-middle mb-0">
+
                 <thead class="table-light">
                     <tr>
                         <th>#</th>
-                        <th>Sujet</th>
                         <th>Corrigé</th>
+                        <th>Auteur</th>
                         <th>Statut</th>
                         <th>Visibilité</th>
+                        <th>Date dépôt</th>
                         <th class="text-end">Actions</th>
                     </tr>
                 </thead>
 
                 <tbody>
                 @forelse($sujets as $sujet)
+
+                    @php
+                        $corrige = $sujet->corrige;
+                    @endphp
+
                     <tr>
+
+                        {{-- INDEX --}}
                         <td>{{ $loop->iteration }}</td>
 
+                        {{-- SUJET --}}
                         <td>
-                            <div class="fw-semibold">{{ $sujet->titre }}</div>
+                            <div class="fw-semibold">
+                                {{ $sujet->titre }}
+                            </div>
                             <small class="text-muted">
-                                Auteur : {{ $sujet->auteur->nom ?? '—' }}
+                                {{ $sujet->matiere->nom ?? '' }}
+                                @if(isset($sujet->filiere))
+                                    • {{ $sujet->filiere->nom }}
+                                @endif
                             </small>
                         </td>
 
+                        {{-- AUTEUR --}}
                         <td>
-                            {{ $sujet->corrige->titre }}
+                            {{ $sujet->audits()->where('sujet_id', $sujet->id)->first()?->auteur?->utilisateur?->prenom ?? '—'  }}
+                            {{ $sujet->audits()->where('sujet_id', $sujet->id)->first()?->auteur?->utilisateur?->nom ?? '—'  }}
+
                         </td>
 
-                        {{-- STATUT --}}
+                          {{-- STATUT --}}
                         <td>
-                            @switch($sujet->corrige->statut)
-                                @case('valide')
-                                    <span class="badge bg-success">Validé</span>
-                                    @break
-                                @case('refuse')
-                                    <span class="badge bg-danger">Refusé</span>
-                                    @break
-                                @default
-                                    <span class="badge bg-warning text-dark">En attente</span>
-                            @endswitch
-                        </td>
-
-                        {{-- PUBLIC --}}
-                        <td>
-                            @if($sujet->corrige->is_public)
-                                <span class="badge bg-primary">Public</span>
+                            @if($corrige->isValide())
+                                <span class="badge bg-success">
+                                    <i class="bi bi-check-circle"></i> Validé
+                                </span>
+                            @elseif($corrige->statut === 'refuse')
+                                <span class="badge bg-danger">
+                                    <i class="bi bi-x-circle"></i> Refusé
+                                </span>
                             @else
-                                <span class="badge bg-secondary">Privé</span>
+                                <span class="badge bg-warning text-dark">
+                                    <i class="bi bi-hourglass-split"></i> En attente
+                                </span>
                             @endif
+                        </td>
+
+                        {{-- VISIBILITE --}}
+                        <td>
+                            @if($corrige->isPublic())
+                                <span class="badge bg-primary">
+                                    Public
+                                </span>
+                            @else
+                                <span class="badge bg-secondary">
+                                    Privé
+                                </span>
+                            @endif
+                        </td>
+
+                        {{-- DATE --}}
+                        <td>
+                            <small class="text-muted">
+                                {{ $corrige->created_at->format('d/m/Y') }}
+                            </small>
                         </td>
 
                         {{-- ACTIONS --}}
                         <td class="text-end">
-                            <div class="dropdown">
-                                <button class="btn btn-sm btn-light" data-bs-toggle="dropdown">
-                                    <i class="bi bi-three-dots-vertical"></i>
-                                </button>
 
-                                <ul class="dropdown-menu dropdown-menu-end shadow">
+                            <div class="btn-group">
 
-                                    {{-- VOIR CORRIGE --}}
-                                    <li>
-                                        <a class="dropdown-item"
-                                           href="{{ route('admin.corrige.show', $sujet->corrige->id) }}"
-                                           target="_blank">
-                                            <i class="bi bi-file-earmark-pdf"></i> Voir le corrigé
-                                        </a>
-                                    </li>
+                                {{-- VOIR --}}
+                                <a href="{{ route('admin.corrige.show', $corrige->id) }}"
+                                   target="_blank"
+                                   class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i>
+                                </a>
 
-                                    <li><hr class="dropdown-divider"></li>
+                                {{-- VALIDER --}}
+                                @if($corrige->statut !== 'valide')
+                                    <form method="POST"
+                                          action="{{ route('admin.corrige.updateStatut', $corrige->id) }}">
+                                        @csrf
+                                        <input type="hidden" name="statut" value="valide">
+                                        <button class="btn btn-sm btn-outline-success">
+                                            <i class="bi bi-check"></i>
+                                        </button>
+                                    </form>
+                                @endif
 
-                                    {{-- VALIDER --}}
-                                    @if($sujet->corrige->statut !== 'valide')
-                                    <li>
-                                        <form method="POST"
-                                              action="{{ route('admin.corrige.valider', $sujet->corrige->id) }}">
-                                            @csrf
-                                            <button class="dropdown-item text-success">
-                                                <i class="bi bi-check-circle"></i> Valider
-                                            </button>
-                                        </form>
-                                    </li>
-                                    @endif
+                                {{-- REFUSER --}}
+                                @if($corrige->statut !== 'refuse')
+                                    <form method="POST"
+                                          action="{{ route('admin.corrige.updateStatut', $corrige->id) }}">
+                                        @csrf
+                                        <input type="hidden" name="statut" value="refuse">
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-x"></i>
+                                        </button>
+                                    </form>
+                                @endif
 
-                                    {{-- REFUSER --}}
-                                    @if($sujet->corrige->statut !== 'refuse')
-                                    <li>
-                                        <form method="POST"
-                                              action="{{ route('admin.corrige.refuser', $sujet->corrige->id) }}">
-                                            @csrf
-                                            <button class="dropdown-item text-danger">
-                                                <i class="bi bi-x-circle"></i> Refuser
-                                            </button>
-                                        </form>
-                                    </li>
-                                    @endif
-
-                                </ul>
                             </div>
+
                         </td>
+
                     </tr>
+
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center py-4 text-muted">
-                            <i class="bi bi-inbox"></i> Aucun corrigé à valider
+                        <td colspan="8" class="text-center py-4 text-muted">
+                            <i class="bi bi-inbox"></i>
+                            Aucun corrigé à valider pour le moment
                         </td>
                     </tr>
                 @endforelse
+
                 </tbody>
 
             </table>
+
         </div>
     </div>
 

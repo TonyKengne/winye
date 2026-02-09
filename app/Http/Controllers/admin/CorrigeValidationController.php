@@ -4,6 +4,10 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Sujet;
+use App\Models\Corrige;
+use App\Models\AuditCorrige;
+use App\Models\Notification;
 
 class CorrigeValidationController extends Controller
 {
@@ -35,7 +39,7 @@ class CorrigeValidationController extends Controller
         ]);
 
         // Notification à l’auteur du sujet
-        $auteurId = $corrige->sujet->compte_utilisateur_id;
+        $auteurId = $corrige->sujet->audits->auteur_id;
 
         Notification::create([
             'titre' => 'Validation du corrigé',

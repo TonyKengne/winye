@@ -45,7 +45,7 @@ class Sujet extends Model
 
     public function auteur()
     {
-        return $this->belongsTo(User::class, 'auteur_id');
+        return $this->belongsTo(CompteUtilisateur::class, 'auteur_id');
     }
 
 }

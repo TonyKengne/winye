@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\MatiereController;
 use App\Http\Controllers\Admin\SujetController;
 use App\Http\Controllers\Admin\CorrigeController;
 use App\Http\Controllers\Admin\SujetValidationController;
+use App\Http\Controllers\Admin\CorrigeValidationController;
 use App\Models\Cursus;
 use App\Models\Departement;
 
