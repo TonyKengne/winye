@@ -109,18 +109,23 @@
                 @csrf
 
                 <div class="form-group">
-                    <label>Nom complet</label>
-                    <input type="text" name="name" value="{{ $user->name ?? '' }}" required>
+                    <label>Nom </label>
+                    <input type="text" name="nom" value="{{ $utilisateur->nom ?? '' }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Prenom</label>
+                    <input type="text" name="prenom" value="{{ $utilisateur->prenom ?? '' }}" required>
                 </div>
 
                 <div class="form-group">
                     <label>Adresse email</label>
-                    <input type="email" name="email" value="{{ $user->email ?? '' }}" required>
+                    <input type="email" name="email" value="{{ $compte->email ?? '' }}" required>
                 </div>
 
                 <div class="form-group">
                     <label>Téléphone</label>
-                    <input type="text" name="phone" value="{{ $user->phone ?? '' }}">
+                    <input type="text" name="telephone" value="{{ $utilisateur->telephone ?? '' }}">
                 </div>
 
                 <button class="btn-primary">Mettre à jour</button>
@@ -132,7 +137,7 @@
             <h3>Photo de profil</h3>
 
             <center>
-                <img src="{{ $user->photo ?? 'https://via.placeholder.com/120' }}" class="profile-photo">
+            <img src="{{ $utilisateur->photo_profil ? asset('storage/'.$utilisateur->photo_profil) : 'https://via.placeholder.com/120' }}" class="profile-photo">
             </center>
 
             <form action="{{ route('enseignant.updatePhoto') }}" method="POST" enctype="multipart/form-data">

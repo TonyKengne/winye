@@ -74,6 +74,9 @@ Route::middleware(['auth'])->prefix('enseignant')->name('enseignant.')->group(fu
     Route::post('/upload', [EnseignantController::class, 'storeDocument'])->name('storeDocument');
     Route::get('/documents/{id}', [EnseignantController::class, 'showDocument'])->name('document.show');
     Route::get('/matieres', [EnseignantController::class, 'mesMatieres'])->name('matieres');
+    Route::post('/matiere', [EnseignantController::class, 'storeMatieres'])->name('matiere.store');
+    Route::put('/matiere/{id}', [EnseignantController::class, 'updateMatieres']) ->name('matiere.update');
+    Route::delete('/matiere/{id}', [EnseignantController::class, 'destroyMatieres'])->name('matiere.destroy');
     Route::get('/statistiques', [EnseignantController::class, 'statistiques'])->name('statistiques');
     Route::get('/parametres', [EnseignantController::class, 'parametres'])->name('parametres');
 
