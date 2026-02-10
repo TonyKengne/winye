@@ -52,8 +52,13 @@ class Corrige extends Model
         return (bool) $this->is_public;
     }
     public function audits()
-{
-    return $this->hasMany(AuditCorrige::class);
-}
+    {
+        return $this->hasMany(AuditCorrige::class);
+    }
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
+    }
+
 
 }

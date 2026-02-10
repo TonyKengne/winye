@@ -51,6 +51,7 @@ class NotificationController extends Controller
         return back()->with('success', 'Notification envoyée avec succès.');
     }
 
+
     /**
      * Marquer une notification comme lue
      */
@@ -69,7 +70,7 @@ class NotificationController extends Controller
      /**
      * Interface admin : voir & envoyer des notifications
      */
-    public function adminIndex()
+   public function adminIndex()
     {
         $roles = Role::all();
         $utilisateurs = CompteUtilisateur::with('role')

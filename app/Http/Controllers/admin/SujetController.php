@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use App\Models\Notification;
 use App\Models\CompteUtilisateur;
 use App\Models\AuditSujet;
+use App\Models\Document;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -149,45 +151,67 @@ private function getAnneesAcademiques()
         'fichier'           => 'required|file|mimes:pdf|max:5120',
     ]);
 
-    // Upload du fichier
-    $path = $request->file('fichier')->store('sujets', 'public');
+    DB::beginTransaction();
 
-    // Créer le sujet
-    $sujet = Sujet::create([
-        'matiere_id'       => $request->matiere_id,
-        'titre'            => $request->titre,
-        'type'             => $request->type,
-        'annee_academique' => $request->annee_academique,
-        'semestre'         => $request->semestre,
-        'fichier'          => $path,
-        'statut'           => 'en_attente',
-    ]);
+    try {
 
-    // Créer l'audit pour suivre l'auteur
-    AuditSujet::create([
-        'sujet_id'   => $sujet->id,
-        'auteur_id'  => session('compte_utilisateur_id'), // ID du compte connecté
-        'statut'     => 'en_attente',
-    ]);
+        // Upload fichier
+        $path = $request->file('fichier')->store('sujets', 'public');
 
-    // Envoyer une notification aux utilisateurs avec role_id 3 et 4
-    $admins = CompteUtilisateur::whereIn('role_id', [3, 4])->get();
-
-    foreach ($admins as $admin) {
-        Notification::create([
-            'compte_utilisateur_id' => $admin->id,
-            'titre' => "Nouveau sujet ajouté",
-            'message' => "Un nouveau sujet '{$sujet->titre}' a été soumis et est en attente de validation.",
-            'type' => 'info',
-            'role_id' => $admin->role_id,
-            'is_lu' => false,
+        // Création sujet
+        $sujet = Sujet::create([
+            'matiere_id'       => $request->matiere_id,
+            'titre'            => $request->titre,
+            'type'             => $request->type,
+            'annee_academique' => $request->annee_academique,
+            'semestre'         => $request->semestre,
+            'fichier'          => $path,
+            'statut'           => 'en_attente',
         ]);
-    }
 
-    return redirect()
-        ->route('admin.sujet.index')
-        ->with('success', 'Sujet ajouté avec succès et les secrétaires & admins ont été notifiés.');
+        // Création document
+        Document::create([
+            'sujet_id' => $sujet->id,
+            'nom'      => $request->file('fichier')->getClientOriginalName(),
+            'fichier'  => $path,
+            'type'     => 'sujet'
+        ]);
+
+        // Audit
+        AuditSujet::create([
+            'sujet_id'  => $sujet->id,
+            'auteur_id' => session('compte_utilisateur_id'),
+            'statut'    => 'en_attente',
+        ]);
+
+        // Notification
+        $admins = CompteUtilisateur::whereIn('role_id', [3, 4])->get();
+
+        foreach ($admins as $admin) {
+            Notification::create([
+                'compte_utilisateur_id' => $admin->id,
+                'titre' => "Nouveau sujet ajouté",
+                'message' => "Un nouveau sujet '{$sujet->titre}' a été soumis et est en attente de validation.",
+                'type' => 'info',
+                'role_id' => $admin->role_id,
+                'is_lu' => false,
+            ]);
+        }
+
+        DB::commit();
+
+        return redirect()
+            ->route('admin.sujet.index')
+            ->with('success', 'Sujet ajouté avec succès.');
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        return back()->with('error', 'Erreur lors de l’enregistrement.');
+    }
 }
+
 
 
 

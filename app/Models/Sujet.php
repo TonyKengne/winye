@@ -19,6 +19,7 @@ class Sujet extends Model
         'fichier',
         'statut',
     ];
+    
 
     /* =========================
        RELATIONS
@@ -47,5 +48,12 @@ class Sujet extends Model
     {
         return $this->belongsTo(CompteUtilisateur::class, 'auteur_id');
     }
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
+    }
+
 
 }
+    
+

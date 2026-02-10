@@ -35,5 +35,15 @@ class Matiere extends Model
     {
         return $this->hasMany(Sujet::class);
     }
+    /**
+     * Relation avec les documents
+     */
+    public function documents()
+    { 
+         return $this->hasManyThrough(Document::class, Sujet::class, 'matiere_id', 'sujet_id'); 
+    }
 
 }
+    
+
+

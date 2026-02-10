@@ -10,6 +10,9 @@ use App\Models\Filiere;
 use App\Models\Matiere;
 use App\Models\Corrige;
 use App\Models\Sujet;
+use App\Models\Document;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class CorrigeController extends Controller
@@ -72,24 +75,45 @@ public function store(Request $request)
         'fichier'  => 'required|file|mimes:pdf|max:5120',
     ]);
 
-    // éviter plusieurs corrigés pour un même sujet
     if (Corrige::where('sujet_id', $request->sujet_id)->exists()) {
         return back()->withErrors([
             'sujet_id' => 'Ce sujet possède déjà un corrigé.'
         ])->withInput();
     }
 
-    $path = $request->file('fichier')->store('corriges', 'public');
+    DB::beginTransaction();
 
-    Corrige::create([
-        'sujet_id' => $request->sujet_id,
-        'fichier'  => $path,
-        'statut'   => 'en_attente',
-    ]);
+    try {
 
-    return redirect()
-        ->route('admin.sujet.index')
-        ->with('success', 'Corrigé ajouté avec succès.');
+        $path = $request->file('fichier')->store('corriges', 'public');
+
+        $corrige = Corrige::create([
+            'sujet_id' => $request->sujet_id,
+            'titre'    => 'Corrigé - ' . now()->format('Y'),
+            'fichier'  => $path,
+            'statut'   => 'en_attente',
+            'is_public'=> false,
+        ]);
+
+        // Création document lié
+        Document::create([
+            'corrige_id' => $corrige->id,
+            'nom'        => $request->file('fichier')->getClientOriginalName(),
+            'fichier'    => $path,
+            'type'       => 'corrige'
+        ]);
+
+        DB::commit();
+
+        return redirect()
+            ->route('admin.sujet.index')
+            ->with('success', 'Corrigé ajouté avec succès.');
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+        return back()->with('error', 'Erreur lors de l’ajout du corrigé.');
+    }
 }
     /**
      * Affichage du corrigé (PDF)

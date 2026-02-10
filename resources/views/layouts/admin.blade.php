@@ -61,6 +61,7 @@
     <div class="sidebar-logo">W</div>
 <div class="sidebar-content">
     <ul>
+<<<<<<< HEAD
 
     {{-- PROFIL --}}
     <li>
@@ -85,7 +86,6 @@
         <i class="bi bi-file-earmark-check text-light"></i> Validation des corrigés
     </a>
 </li>
-
 
     {{-- GESTION ACADÉMIQUE --}}
     <li class="sidebar-title text-uppercase text-light mt-3 px-3 small">
@@ -119,6 +119,10 @@
     <li>
         <a href="{{ route('admin.matiere.index') }}" class="sidebar-link">
             <i class="bi bi-book text-light"></i> Matières
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('admin.documents.index') }}"><i class="bi bi-journal-text text-light"></i> Documents
         </a>
     </li>
 
