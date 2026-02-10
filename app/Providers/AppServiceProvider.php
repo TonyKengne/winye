@@ -32,7 +32,6 @@ class AppServiceProvider extends ServiceProvider
 
     // Partager le thème avec toutes les vues
     View::share('theme', $theme);
-
         Schema::defaultStringLength(191);
     }
 }
