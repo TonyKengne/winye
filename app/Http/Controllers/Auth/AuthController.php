@@ -80,47 +80,39 @@ public function register(RegisterRequest $request)
    /**
  * Traiter la connexion
  */
-    public function login(Request $request)
+   public function login(Request $request)
 {
+    // Validation
     $request->validate([
         'email'    => 'required|email',
         'password' => 'required|string',
     ]);
 
-    
+    // Chercher le compte avec relation utilisateur
     $compte = CompteUtilisateur::with('utilisateur')
         ->where('email', $request->email)
         ->first();
 
-    if (!$compte) {
+    if (!$compte || !Hash::check($request->password, $compte->password)) {
         return back()
             ->withInput($request->only('email'))
             ->with('error', 'Email ou mot de passe incorrect.');
     }
 
-    
-    if (!Hash::check($request->password, $compte->password)) {
-        return back()
-            ->withInput($request->only('email'))
-            ->with('error', 'Email ou mot de passe incorrect.');
-    }
-
-    
+    // Vérifier statut du compte
     if ($compte->statut !== 'actif') {
-        return back()
-            ->with('error', 'Votre compte n’est pas encore activé.');
+        return back()->with('error', 'Votre compte n’est pas encore activé.');
     }
 
-    
+    // Vérifier qu'un profil utilisateur existe
     if (!$compte->utilisateur) {
         Session::flush();
-
-        return back()
-            ->with('error', 'Profil utilisateur introuvable. Contactez l’administrateur.');
+        return back()->with('error', 'Profil utilisateur introuvable. Contactez l’administrateur.');
     }
 
     $utilisateur = $compte->utilisateur;
 
+    // Stocker les informations essentielles dans la session
     Session::put([
         'compte_utilisateur_id' => $compte->id,
         'role_id'               => $compte->role_id,
@@ -131,38 +123,31 @@ public function register(RegisterRequest $request)
         'filiere_id'            => $utilisateur->filiere_id,
     ]);
 
-    
+    // Redirection selon rôle
     switch ($compte->role_id) {
-
         case 1: // Étudiant
-
-            // Si filière non renseignée → redirection onboarding
-
-            $needsFiliere = is_null($utilisateur->filiere_id);
-             return view('etudiant.dashboard', compact('needsFiliere'));
-   
-            break;
+            if (is_null($utilisateur->filiere_id)) {
+                // Filère non définie → rediriger vers onboarding
+                return redirect()->route('inscription.filiere')
+                                 ->with('info', 'Veuillez compléter votre inscription pour accéder au dashboard.');
+            }
+            return redirect()->route('utilisateur.dashboard')
+                             ->with('success', 'Connexion réussie ! Bienvenue sur Winye.');
 
         case 2: // Enseignant
-            $route = 'enseignant.dashboard';
-            break;
+            return redirect()->route('enseignant.dashboard')
+                             ->with('success', 'Connexion réussie ! Bienvenue sur Winye.');
 
         case 3: // Secrétaire
         case 4: // Administrateur
-            $route = 'admin.dashboard';
-            break;
+            return redirect()->route('admin.dashboard')
+                             ->with('success', 'Connexion réussie ! Bienvenue sur Winye.');
 
         default:
             Session::flush();
-
-            return redirect()
-                ->route('login')
-                ->with('error', 'Rôle non reconnu.');
+            return redirect()->route('login')
+                             ->with('error', 'Rôle non reconnu.');
     }
-
-    return redirect()
-        ->route($route)
-        ->with('success', 'Connexion réussie ! Bienvenue sur Winye.');
 }
 
     /**

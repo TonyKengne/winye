@@ -24,6 +24,8 @@ use App\Http\Controllers\Enseignant\CorrigeController as EnseignantCorrigeContro
 use App\Http\Controllers\Enseignant\NotificationController as EnseignantNotificationController;
 use App\Http\Controllers\Etudiant\InscriptionFiliereController;
 use App\Http\Controllers\EtudiantDashboardController;
+use App\Http\Controllers\Etudiant\EtudiantController;
+use App\Http\Controllers\Etudiant\EtudiantProfileController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -190,3 +192,16 @@ Route::post('/inscription/niveau/{id}', [InscriptionFiliereController::class, 's
 
 Route::post('/inscription/filiere/save', [InscriptionFiliereController::class, 'save'])
     ->name('inscription.saveFiliere');
+
+    Route::prefix('etudiant')->group(function () {
+    Route::get('/sujets/{sujet}', [EtudiantController::class, 'voirSujet'])->name('sujets.voir');
+    Route::get('/corriges/{corrige}', [EtudiantController::class, 'voirCorrige'])->name('corriges.voir');
+    Route::post('/favoris/ajouter/{sujet}', [EtudiantController::class, 'ajouterFavori'])->name('favoris.ajouter');
+
+    Route::get('profil', [EtudiantProfileController::class, 'index'])->name('etudiant.profil');
+    Route::post('profil/photo', [EtudiantProfileController::class, 'updatePhoto'])->name('profil.update.photo');
+    Route::put('profil/informations', [EtudiantProfileController::class, 'updateInformations'])->name('profil.update.informations');
+    Route::put('profil/password', [EtudiantProfileController::class, 'updatePassword'])->name('profil.update.password');
+});
+
+

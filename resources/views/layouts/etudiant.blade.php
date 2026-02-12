@@ -68,8 +68,13 @@
                     </div>
 
                     <div class="dropdown-divider"></div>
+                    <li>
+                        <a href="{{ route('utilisateur.dashboard') }}" class="nav-link custom-link" >
+                            <i class="bi bi-speedometer2 text-danger me-1"></i> Accueil
+                        </a>
+                    </li>
 
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="{{ route('etudiant.profil') }}">
                         <i class="bi bi-person me-2"></i> Mon compte
                     </a>
 
@@ -122,6 +127,12 @@
                         <i class="bi bi-gem me-1"></i> Premium
                     </a>
                 </li>
+            <li>
+            <a href="{{ route('utilisateur.dashboard') }}" class="nav-link custom-link" >
+                <i class="bi bi-speedometer2 text-danger me-1"></i> Accueil
+            </a>
+          </li>
+
 
                 <li>
                     <a href="#" class="nav-link custom-link">
@@ -130,7 +141,7 @@
                 </li>
 
                 <li>
-                    <a href="#" class="nav-link custom-link">
+                    <a href="{{ route('etudiant.profil') }}" class="nav-link custom-link">
                         <i class="bi bi-person me-1"></i> Mon compte
                     </a>
                 </li>

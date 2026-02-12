@@ -16,9 +16,9 @@ class DashboardController extends Controller
     /**
      * Dashboard étudiant
      */
-    public function utilisateurDashboard()
+  public function utilisateurDashboard()
 {
-    $utilisateur = Utilisateur::find(Session::get('compte_utilisateur_id'));
+    $utilisateur = Utilisateur::with('filiere')->find(Session::get('compte_utilisateur_id'));
 
     if (!$utilisateur) {
         return redirect()->route('login');
@@ -26,8 +26,25 @@ class DashboardController extends Controller
 
     $needsFiliere = is_null($utilisateur->filiere_id);
 
-    return view('etudiant.dashboard', compact('needsFiliere'));
+    if ($needsFiliere) {
+        return view('etudiant.dashboard', compact('needsFiliere'));
+    }
+
+    // Charger les matières de la filière avec leurs sujets et le corrigé associé valide et public
+    $matieres = $utilisateur->filiere
+        ->matieres()
+        ->with(['sujets' => function ($query) {
+            $query->where('statut', 'valide')
+                  ->with(['corrige' => function ($q) {
+                      $q->where('statut', 'valide')
+                        ->where('is_public', true);
+                  }]);
+        }])
+        ->get();
+
+    return view('etudiant.dashboard', compact('utilisateur', 'needsFiliere', 'matieres'));
 }
+
 
 
     /**

@@ -59,11 +59,7 @@ class Corrige extends Model
     {
         return $this->hasMany(Document::class);
     }
-    public function favoris()
-{
-    return $this->morphMany(Favori::class, 'favorisable');
-}
-
+    
 
 
 }

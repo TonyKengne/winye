@@ -2,71 +2,136 @@
 
 @section('content')
 
-{{-- Si l'étudiant n'a pas de filière, on floute le dashboard --}}
 @if($needsFiliere)
     <div class="dashboard-blur">
 @endif
 
-{{-- Contenu principal du dashboard --}}
 <div class="container my-5">
 
-    <div class="card shadow-sm border-0 rounded-4">
-        <div class="card-body p-5 text-center">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-violet">
+            <i class="bi bi-mortarboard-fill me-2"></i>
+            Tableau de bord académique
+        </h2>
+        <p class="text-muted">Accédez à vos matières et sujets disponibles</p>
+    </div>
+    {{-- Messages flash --}}
+@if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+    </div>
+@endif
 
-            <h2 class="fw-bold mb-3">
-                <i class="bi bi-speedometer2 text-primary me-2"></i>
-                Tableau de bord
-            </h2>
+@if (session('info'))
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        {{ session('info') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+    </div>
+@endif
 
-            <p class="text-muted fs-5">
-                Bienvenue sur votre espace étudiant 👋
-            </p>
+@if (session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+    </div>
+@endif
 
-            <hr class="my-4">
 
-            <p class="mb-3">
-                Depuis cet espace, vous pouvez consulter les sujets, télécharger les corrigés,
-                et suivre vos notifications.
-            </p>
+    {{-- ================= MATIERES ================= --}}
+    <div class="row g-3">
 
-            {{-- Barre d’évolution placeholder (visible si besoin lors de l'inscription) --}}
-            @if($needsFiliere)
-                <div class="progress rounded-pill" style="height: 12px;">
-                    <div class="progress-bar bg-primary" role="progressbar" 
-                         style="width: 25%;" 
-                         aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+        @foreach($matieres as $matiere)
+        <div class="col-12">
+
+            <div class="card matiere-card shadow-sm border-0 rounded-4">
+
+                <div class="card-body">
+
+                    {{-- Carte principale matière --}}
+                    <button class="btn btn-light w-100 text-start fw-bold matiere-toggle"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#matiere{{ $matiere->id }}">
+                        <i class="bi bi-book me-2"></i>
+                        {{ $matiere->nom }} - <span class="small text-muted">Code: {{ $matiere->code }} | Semestre: {{ $matiere->semestre }}</span>
+                    </button>
+
+                    {{-- Contenu caché : types, sessions, sujets --}}
+                    <div class="collapse mt-3" id="matiere{{ $matiere->id }}">
+
+                        @foreach($matiere->sujets->groupBy('type') as $type => $sujetsParType)
+                            <div class="card type-card mb-3 p-3">
+
+                                <button class="btn btn-outline-secondary w-100 text-start fw-semibold type-toggle"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#type{{ $matiere->id }}{{ Str::slug($type) }}">
+                                    {{ ucfirst($type) }}
+                                </button>
+
+                                <div class="collapse mt-2" id="type{{ $matiere->id }}{{ Str::slug($type) }}">
+                                    @foreach($sujetsParType->groupBy('session') as $session => $sujets)
+                                        <div class="card session-card p-2 mb-2">
+
+                                            <h6 class="fw-bold text-violet mb-2">
+                                                {{ ucfirst($session) }}
+                                            </h6>
+
+                                            @foreach($sujets as $sujet)
+                                                <div class="sujet-item d-flex justify-content-between align-items-center mb-2">
+
+                                                    <span class="small">{{ $sujet->titre }}</span>
+
+                                                    <div class="d-flex gap-2">
+
+                                                        <a href="{{ route('sujets.voir', $sujet->id) }}" class="btn btn-violet">Voir</a>
+
+                                                        @if($sujet->corrige)
+                                                            <a href="{{ route('corriges.voir', $sujet->corrige->id) }}" class="btn btn-outline-success">Corrigé</a>
+                                                        @else
+                                                            <span class="btn btn-outline-danger">Pas de corrigé</span>
+                                                        @endif
+
+                                                        <form method="POST" action="{{ route('favoris.ajouter', $sujet->id) }}">
+    @csrf
+    <button class="btn btn-outline-warning">
+        <i class="bi bi-star{{ $sujet->favoris->where('utilisateur_id', session('compte_utilisateur_id'))->count() ? '-fill text-danger' : '' }}"></i>
+    </button>
+</form>
+
+
+                                                    </div>
+                                                </div>
+                                            @endforeach
+
+                                        </div>
+                                    @endforeach
+                                </div>
+
+                            </div>
+                        @endforeach
+
                     </div>
+
                 </div>
-                <small class="text-muted mt-2 d-block">
-                    Progression de votre inscription
-                </small>
-            @endif
+            </div>
 
         </div>
-    </div>
+        @endforeach
 
+    </div>
 </div>
 
 @if($needsFiliere)
-    </div> {{-- fin du dashboard-flou --}}
+    </div>
 
-    {{-- Overlay pour compléter l'inscription --}}
     <div class="onboarding-overlay d-flex justify-content-center align-items-center">
-        <div class="card shadow p-4 text-center" style="width: 500px; height:400px;">
-            <h3 class="fw-bold mb-3">Complétez votre inscription</h3>
-            <p class="text-muted mb-4">
-                Veuillez renseigner votre filière pour accéder au tableau de bord.
+        <div class="card shadow p-4 text-center" style="width: 500px;">
+            <h3 class="fw-bold mb-3 text-violet">Complétez votre inscription</h3>
+            <p class="text-muted mb-4">Veuillez renseigner votre filière pour accéder aux matières.</p>
 
-            </p>
-
-            <a href="{{ route('inscription.filiere') }}" 
-               class="btn btn-violet btn-lg">
-                Déterminer mon inscription
+            <a href="{{ route('inscription.filiere') }}" class="btn btn-violet btn-lg">
+                Déterminer ma filière
             </a>
-             <p class="text-muted mb-4">
-                <i class="bi bi-info-circle-fill me-1"></i>
-                Suivez les étapes pour terminer votre profil.
-            </p>
         </div>
     </div>
 @endif
@@ -75,30 +140,36 @@
 
 @push('styles')
 <style>
-/* Floutage du dashboard lorsque l'overlay est actif */
-.dashboard-blur {
-    filter: blur(4px) brightness(0.9);
-    pointer-events: none;
-    user-select: none;
-}
+.text-violet { color: #6f42c1; }
 
-/* Overlay centrée */
+.btn-violet {
+    background-color: #6f42c1;
+    color: white;
+}
+.btn-violet:hover { background-color: #5a34a8; }
+
+.btn-outline-violet {
+    border: 1px solid #6f42c1;
+    color: #6f42c1;
+}
+.btn-outline-violet:hover { background-color: #6f42c1; color: white; }
+
+.matiere-card, .type-card, .session-card {
+    transition: all 0.3s ease;
+}
+.matiere-card:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(111,66,193,0.2); }
+
+.type-card { border-radius: 12px; background: #f4f1fc; }
+.session-card { border-radius: 10px; background: #f8f6fc; }
+
+.dashboard-blur { filter: blur(4px); pointer-events: none; }
+
 .onboarding-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: rgba(255,255,255,0.8);
+    top: 0; left: 0;
+    width: 100%; height: 100vh;
+    background: rgba(255,255,255,0.85);
     z-index: 2000;
-}
-
-/* Style de la carte de l'onboarding */
-.onboarding-overlay .card {
-    border-radius: 1rem;
-}
-p{
-    margin-top:50px ;
 }
 </style>
 @endpush
