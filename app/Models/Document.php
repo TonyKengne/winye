@@ -16,6 +16,7 @@ class Document extends Model
         'fichier',
         'type',
         'nb_vues',
+        'valide',
         'auteur_id',
     ];
 

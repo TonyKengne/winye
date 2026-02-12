@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-<link rel="stylesheet" href="{{ asset('css/matiere/show.css') }}">
+<link rel="stylesheet" href="{{ asset('css/matiere/index.css') }}">
 
 <div class="container-fluid">
 

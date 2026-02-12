@@ -112,8 +112,7 @@ public function register(RegisterRequest $request)
                 ->with('error', 'Profil utilisateur introuvable. Contactez l’administrateur.');
         }
 
-        // Authentification Laravel
-        Auth::login($compte);
+        
 
         // Mise en session (données essentielles)
         Session::put('compte_utilisateur_id', $compte->id);
@@ -121,6 +120,7 @@ public function register(RegisterRequest $request)
         Session::put('nom_utilisateur', $compte->utilisateur->nom);
         Session::put('prenom_utilisateur', $compte->utilisateur->prenom);
         Session::put('photo_profil', $compte->utilisateur->photo_profil);
+        Session::put('email_utilisateur', $compte->email);
 
         // Redirection selon le rôle
         switch ($compte->role_id) {

@@ -61,7 +61,7 @@
     <div class="sidebar-logo">W</div>
 <div class="sidebar-content">
     <ul>
-<<<<<<< HEAD
+
 
     {{-- PROFIL --}}
     <li>
@@ -121,10 +121,7 @@
             <i class="bi bi-book text-light"></i> Matières
         </a>
     </li>
-    <li>
-        <a href="{{ route('admin.documents.index') }}"><i class="bi bi-journal-text text-light"></i> Documents
-        </a>
-    </li>
+   
 
     <li>
         <a href="{{ route('admin.sujet.index') }}" class="sidebar-link">

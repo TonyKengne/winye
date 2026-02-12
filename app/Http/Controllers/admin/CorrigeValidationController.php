@@ -39,7 +39,9 @@ class CorrigeValidationController extends Controller
         ]);
 
         // Notification à l’auteur du sujet
-        $auteurId = $corrige->sujet->audits->auteur_id;
+        
+        $auteurId = $corrige->sujet->auteur_id;
+
 
         Notification::create([
             'titre' => 'Validation du corrigé',
@@ -51,6 +53,17 @@ class CorrigeValidationController extends Controller
             'role_id' => null, // envoi à une seule personne
             'is_lu' => false,
         ]);
+        // Si le corrigé est validé, on valide aussi le document associé
+        if ($request->statut === 'valide') {
+            $document = $corrige->sujet->document; // relation sujet -> document
+
+            if ($document) {
+                $document->update([
+                    'valide' => 1
+                ]);
+            }
+        }
+
 
         return back()->with('success', 'Statut du corrigé mis à jour.');
     }

@@ -1,0 +1,122 @@
+:root {
+    --primary-violet: #6f42c1;
+    --primary-violet-dark: #5a32a3;
+    --bg-light: #f4f6fb;
+    --text-dark: #000000;
+}
+
+body {
+    background: var(--bg-light);
+}
+
+/* CONTAINER */
+.settings-container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* TITRE PRINCIPAL (reste noir) */
+.settings-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: var(--text-dark);
+}
+
+/* GRID */
+.settings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+/* CARDS */
+.card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 25px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    transition: 0.3s ease;
+    border: 1px solid #eeeeee;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* TITRES DES CARDS (NOIR) */
+.card h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--text-dark);
+}
+
+/* FORM */
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+input, select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #dddddd;
+    margin-top: 5px;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+input:focus, select:focus {
+    border-color: var(--primary-violet);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, 0.1);
+}
+
+/* BOUTON OUTLINE VIOLET */
+.btn-primary {
+    background: transparent;
+    color: var(--primary-violet);
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 2px solid var(--primary-violet);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+/* AU HOVER → FOND VIOLET */
+.btn-primary:hover {
+    background: var(--primary-violet);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(111, 66, 193, 0.25);
+}
+
+/* PHOTO */
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--primary-violet);
+    margin-bottom: 15px;
+}
+
+/* RESPONSIVE */
+@media(max-width: 900px) {
+    .settings-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .settings-title {
+        font-size: 22px;
+    }
+}

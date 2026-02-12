@@ -63,6 +63,19 @@ class SujetValidationController extends Controller
             'date_lecture' => null,
         ]);
     }
+    // Si le corrigé est validé, on valide aussi le document associé
+        if ($request->statut === 'valide') {
+
+        // On cherche le document lié au sujet via sujet_id
+        $document = \App\Models\Document::where('sujet_id', $sujet->id)->first();
+
+        if ($document) {
+            $document->update([
+                'valide' => 1
+            ]);
+        }
+    }
+
 
     return redirect()->back()->with('success', "Le sujet a été {$request->statut} et l'auteur a été notifié.");
 }

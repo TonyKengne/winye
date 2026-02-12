@@ -19,6 +19,9 @@ use App\Http\Controllers\Admin\CorrigeValidationController;
 use App\Models\Cursus;
 use App\Models\Departement;
 use App\Http\Controllers\enseignant\EnseignantController;
+use App\Http\Controllers\Enseignant\SujetController as EnseignantSujetController;
+use App\Http\Controllers\Enseignant\CorrigeController as EnseignantCorrigeController;
+use App\Http\Controllers\Enseignant\NotificationController as EnseignantNotificationController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -112,7 +115,7 @@ Route::get('/notifications/contact-admin', [NotificationController::class, 'cont
 // =======================
 // 🔹 Documents (Admin)
 // =======================
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/documents', [DocumentController::class, 'index'])->name('documents.index');
     Route::get('/documents/{id}', [DocumentController::class, 'show'])->name('documents.show');
     Route::post('/documents/{id}/valider', [DocumentController::class, 'valider'])->name('documents.valider');
@@ -131,7 +134,7 @@ Route::post('/profil/photo', [ProfilController::class, 'updatePhoto'])->name('pr
 // =======================
 // 🔹 Enseignant
 // =======================
-Route::middleware(['auth'])->prefix('enseignant')->name('enseignant.')->group(function () {
+Route::prefix('enseignant')->name('enseignant.')->group(function () {
     Route::get('/dashboard', [EnseignantController::class, 'dashboard'])->name('dashboard');
     Route::get('/documents', [EnseignantController::class, 'mesDocuments'])->name('documents');
     Route::get('/upload', [EnseignantController::class, 'upload'])->name('upload');
@@ -142,11 +145,26 @@ Route::middleware(['auth'])->prefix('enseignant')->name('enseignant.')->group(fu
     Route::put('/matiere/{id}', [EnseignantController::class, 'updateMatieres']) ->name('matiere.update');
     Route::delete('/matiere/{id}', [EnseignantController::class, 'destroyMatieres'])->name('matiere.destroy');
     Route::get('/statistiques', [EnseignantController::class, 'statistiques'])->name('statistiques');
-    Route::get('/parametres', [EnseignantController::class, 'parametres'])->name('parametres');
 
-    Route::post('/update-profile', [EnseignantController::class, 'updateProfile'])->name('updateProfile');
-    Route::post('/update-photo', [EnseignantController::class, 'updatePhoto'])->name('updatePhoto');
-    Route::post('/update-password', [EnseignantController::class, 'updatePassword'])->name('updatePassword');
-    Route::post('/update-settings', [EnseignantController::class, 'updateSettings'])->name('updateSettings');
+    Route::get('parametres', [EnseignantController::class, 'parametres'])->name('parametres');
+
+    Route::post('update-profile', [EnseignantController::class, 'updateProfile'])->name('updateProfile');
+
+    Route::post('update-photo', [EnseignantController::class, 'updatePhoto'])->name('updatePhoto');
+
+    Route::post('update-password', [EnseignantController::class, 'updatePassword'])->name('updatePassword');
+
+    Route::post('update-settings', [EnseignantController::class, 'updateSettings'])->name('updateSettings');
+
+
+    Route::resource('sujet', EnseignantSujetController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
+    Route::get('corrige/create', [EnseignantCorrigeController::class, 'create'])->name('corrige.create');
+    Route::post('corrige', [EnseignantCorrigeController::class, 'store'])->name('corrige.store');
+    Route::get('corrige/{corrige}', [EnseignantCorrigeController::class, 'show'])->name('corrige.show');
+
+    Route::get('/notifications', [EnseignantNotificationController::class, 'index'])->name('notification');
+    Route::post('/notifications/{id}/read', [EnseignantNotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::get('/notifications/create', [EnseignantNotificationController::class, 'create'])->name('notifications.create');
+    Route::post('/notifications/store', [EnseignantNotificationController::class, 'store'])->name('notifications.store');
 });
 

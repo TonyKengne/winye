@@ -1,0 +1,231 @@
+
+    .stats-card {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(93, 63, 211, 0.1);
+        transition: all 0.3s ease;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .stats-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(93, 63, 211, 0.2);
+    }
+
+    .stats-card .card-body {
+        padding: 1.5rem;
+    }
+
+    .stats-card .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+
+    .stats-card .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0.5rem 0 0.25rem 0;
+        color: #2C3E50;
+    }
+
+    .stats-card .stat-label {
+        font-size: 0.85rem;
+        color: #6c757d;
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+
+    .border-left-primary {
+        border-left: 4px solid #6f42c1 !important;
+    }
+
+    .border-left-success {
+        border-left: 4px solid #28a745 !important;
+    }
+
+    .border-left-info {
+        border-left: 4px solid #17a2b8 !important;
+    }
+
+    .border-left-warning {
+        border-left: 4px solid #ffc107 !important;
+    }
+
+    .section-card {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(93, 63, 211, 0.1);
+        margin-bottom: 1.5rem;
+    }
+
+    .section-card .card-header {
+        background: #6f42c1;
+        color: white;
+        border: solid 1px #6f42c1 ;
+        border-radius: 15px 15px 0 0 !important;
+        padding: 1.25rem 1.5rem;
+    }
+
+    .section-card .card-header h6 {
+        margin: 0;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    .section-card .card-header .toggle-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: white;
+        padding: 0.4rem 0.75rem;
+        border-radius: 8px;
+        transition: all 0.3s;
+        cursor: pointer;
+    }
+
+    .section-card .card-header .toggle-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    .section-card .card-header .toggle-btn i {
+        transition: transform 0.3s;
+    }
+
+    .section-card .card-header .toggle-btn.collapsed i {
+        transform: rotate(-90deg);
+    }
+
+    .action-btn {
+        padding: 1rem;
+        border-radius: 12px;
+        border: none;
+        font-weight: 600;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .action-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .table-modern {
+        margin: 0;
+    }
+
+    .table-modern thead th {
+        background-color: #f8f9fa;
+        color: #2C3E50;
+        font-weight: 600;
+        border-bottom: 2px solid #dee2e6;
+        padding: 1rem;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .table-modern tbody tr {
+        transition: all 0.3s;
+    }
+
+    .table-modern tbody tr:hover {
+        background-color: #f8f7ff;
+        transform: scale(1.01);
+    }
+
+    .table-modern tbody td {
+        padding: 1rem;
+        vertical-align: middle;
+        color: #495057;
+    }
+
+    .badge-type {
+        padding: 0.5rem 0.75rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+    .empty-state {
+        padding: 3rem 1rem;
+        text-align: center;
+    }
+
+    .empty-state i {
+        font-size: 4rem;
+        color: #dee2e6;
+        margin-bottom: 1.5rem;
+    }
+
+    .empty-state p {
+        color: #6c757d;
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+    }
+    .user-profile-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;   /* centre horizontalement */
+    justify-content: center;
+    width: 100%;
+    }
+
+    .user-avatar {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        object-fit: cover;
+        display: block;
+        margin: 0 auto; /* sécurité supplémentaire */
+    }
+    
+
+
+    @media (max-width: 768px) {
+        .stats-card .stat-value {
+            font-size: 1.5rem;
+        }
+
+        .stats-card .stat-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+        }
+
+        .action-btn {
+            padding: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .table-responsive {
+            font-size: 0.85rem;
+        }
+
+        .section-card .card-header h6 {
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .stats-card {
+            margin-bottom: 1rem;
+        }
+
+        .stats-card .card-body {
+            padding: 1.25rem;
+        }
+
+        .action-btn span {
+            font-size: 0.85rem;
+        }
+    }
