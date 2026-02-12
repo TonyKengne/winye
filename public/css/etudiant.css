@@ -1,0 +1,212 @@
+:root {
+    --primary: #6f42c1;
+    --dark: #1f2937;
+    --light-bg: #f8f9fc;
+}
+
+/* STRUCTURE PAGE */
+html, body {
+    height: 100%;
+}
+
+.page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    flex: 1;
+    padding-top: 90px;
+    padding-bottom: 40px;
+    background: var(--light-bg);
+}
+
+/* NAVBAR */
+.navbar-student {
+    background: #fff;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+    height: 70px;
+}
+
+.logo-w {
+    color: var(--primary);
+    font-size: 1.8rem;
+}
+
+/* WELCOME */
+.welcome-text {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+.dashboard-blur {
+    filter: blur(4px);
+    pointer-events: none;
+}
+
+.onboarding-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+
+/* PREMIUM BADGE */
+.premium-badge {
+    background: var(--dark);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: 0.2s ease;
+}
+
+.premium-badge:hover {
+    opacity: 0.85;
+}
+
+/* LINKS */
+.custom-link {
+    color: #444 !important;
+    font-weight: 500;
+}
+
+.custom-link:hover {
+    color: var(--primary) !important;
+}
+
+/* AVATAR */
+.user-avatar,
+.user-avatar-sm {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--primary);
+    display: block;
+}
+
+.user-avatar-sm {
+    width: 36px;
+    height: 36px;
+}
+
+.avatar-placeholder {
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* USER BUTTON */
+.user-menu-btn {
+    border: none;
+    background: transparent;
+    padding: 0;
+}
+
+/* DROPDOWN */
+.student-dropdown {
+    border-radius: 12px;
+    min-width: 260px;
+}
+
+.student-dropdown .dropdown-item {
+    font-weight: 500;
+}
+/* Conteneur du bouton utilisateur */
+.user-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    background: transparent;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 30px;
+
+    transition: 0.2s ease;
+}
+
+/* Effet hover propre */
+.user-menu-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+/* Avatar */
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Placeholder initiale */
+.avatar-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #6f42c1; /* adapte à ton thème */
+    color: white;
+    font-weight: bold;
+}
+
+/* Flèche */
+.dropdown-arrow {
+    font-size: 0.9rem;
+    transition: transform 0.2s ease;
+}
+
+/* Animation quand ouvert */
+.show .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+/* FOOTER */
+.student-footer {
+    background: white;
+    border-top: 1px solid #eee;
+    padding: 15px 0;
+}
+:root {
+        --primary-color: #6f42c1;
+        --primary-light: rgba(111,66,193,.08);
+    }
+
+    /* Header buttons */
+    .btn-violet {
+        background: transparent;
+        color: var(--primary-color);
+        border: 1.5px solid var(--primary-color);
+        transition: .25s ease;
+    }
+    .btn-violet:hover {
+        background: var(--primary-color);
+        color: #fff;
+    }
+
+    /* Responsive text on button */
+    .btn-text {
+        display: inline;
+    }
+    p{
+    margin-top:40px ;
+}
+
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+
+    .welcome-text {
+        display: none;
+    }
+
+}

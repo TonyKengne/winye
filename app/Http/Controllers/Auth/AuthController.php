@@ -81,74 +81,89 @@ public function register(RegisterRequest $request)
  * Traiter la connexion
  */
     public function login(Request $request)
-    {
-        // Validation des champs
-        $request->validate([
-            'email'    => 'required|email',
-            'password' => 'required|string',
-        ]);
+{
+    $request->validate([
+        'email'    => 'required|email',
+        'password' => 'required|string',
+    ]);
 
-        // Récupération du compte avec le profil utilisateur
-        $compte = CompteUtilisateur::with('utilisateur')
-            ->where('email', $request->email)
-            ->first();
+    
+    $compte = CompteUtilisateur::with('utilisateur')
+        ->where('email', $request->email)
+        ->first();
 
-        // Vérification email / mot de passe
-        if (!$compte || !Hash::check($request->password, $compte->password)) {
-            return back()
-                ->withInput($request->only('email'))
-                ->with('error', 'Email ou mot de passe incorrect.');
-        }
-
-        // Vérification du statut du compte
-        if ($compte->statut !== 'actif') {
-            return back()
-                ->with('error', 'Votre compte n’est pas encore activé.');
-        }
-
-        // Vérifier que le profil existe
-        if (!$compte->utilisateur) {
-            Session::flush();
-            return back()
-                ->with('error', 'Profil utilisateur introuvable. Contactez l’administrateur.');
-        }
-
-        
-
-        // Mise en session (données essentielles)
-        Session::put('compte_utilisateur_id', $compte->id);
-        Session::put('role_id', $compte->role_id);
-        Session::put('nom_utilisateur', $compte->utilisateur->nom);
-        Session::put('prenom_utilisateur', $compte->utilisateur->prenom);
-        Session::put('photo_profil', $compte->utilisateur->photo_profil);
-        Session::put('email_utilisateur', $compte->email);
-
-        // Redirection selon le rôle
-        switch ($compte->role_id) {
-            case 1: // Étudiant
-                $route = 'utilisateur.dashboard';
-                break;
-
-            case 2: // Enseignant
-                $route = 'enseignant.dashboard';
-                break;
-
-            case 3: // Secrétaire
-            case 4: // Administrateur
-                $route = 'admin.dashboard';
-                break;
-
-            default:
-                Session::flush();
-                return redirect()
-                    ->route('login')
-                    ->with('error', 'Rôle non reconnu.');
-        }
-
-        return redirect()
-            ->route($route)
-            ->with('success', 'Connexion réussie ! Bienvenue sur Winye.');
+    if (!$compte) {
+        return back()
+            ->withInput($request->only('email'))
+            ->with('error', 'Email ou mot de passe incorrect.');
     }
+
+    
+    if (!Hash::check($request->password, $compte->password)) {
+        return back()
+            ->withInput($request->only('email'))
+            ->with('error', 'Email ou mot de passe incorrect.');
+    }
+
+    
+    if ($compte->statut !== 'actif') {
+        return back()
+            ->with('error', 'Votre compte n’est pas encore activé.');
+    }
+
+    
+    if (!$compte->utilisateur) {
+        Session::flush();
+
+        return back()
+            ->with('error', 'Profil utilisateur introuvable. Contactez l’administrateur.');
+    }
+
+    $utilisateur = $compte->utilisateur;
+
+    Session::put([
+        'compte_utilisateur_id' => $compte->id,
+        'role_id'               => $compte->role_id,
+        'nom_utilisateur'       => $utilisateur->nom,
+        'prenom_utilisateur'    => $utilisateur->prenom,
+        'photo_profil'          => $utilisateur->photo_profil,
+        'email_utilisateur'     => $compte->email,
+        'filiere_id'            => $utilisateur->filiere_id,
+    ]);
+
+    
+    switch ($compte->role_id) {
+
+        case 1: // Étudiant
+
+            // Si filière non renseignée → redirection onboarding
+
+            $needsFiliere = is_null($utilisateur->filiere_id);
+             return view('etudiant.dashboard', compact('needsFiliere'));
+   
+            break;
+
+        case 2: // Enseignant
+            $route = 'enseignant.dashboard';
+            break;
+
+        case 3: // Secrétaire
+        case 4: // Administrateur
+            $route = 'admin.dashboard';
+            break;
+
+        default:
+            Session::flush();
+
+            return redirect()
+                ->route('login')
+                ->with('error', 'Rôle non reconnu.');
+    }
+
+    return redirect()
+        ->route($route)
+        ->with('success', 'Connexion réussie ! Bienvenue sur Winye.');
+}
 
     /**
      * Déconnexion

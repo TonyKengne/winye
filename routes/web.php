@@ -22,6 +22,8 @@ use App\Http\Controllers\enseignant\EnseignantController;
 use App\Http\Controllers\Enseignant\SujetController as EnseignantSujetController;
 use App\Http\Controllers\Enseignant\CorrigeController as EnseignantCorrigeController;
 use App\Http\Controllers\Enseignant\NotificationController as EnseignantNotificationController;
+use App\Http\Controllers\Etudiant\InscriptionFiliereController;
+use App\Http\Controllers\EtudiantDashboardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -168,3 +170,23 @@ Route::prefix('enseignant')->name('enseignant.')->group(function () {
     Route::post('/notifications/store', [EnseignantNotificationController::class, 'store'])->name('notifications.store');
 });
 
+
+Route::get('/dashboard-etudiant', [EtudiantDashboardController::class, 'index'])->name('utilisateur.dashboard');
+Route::post('/inscription/filiere', [InscriptionFiliereController::class, 'save'])->name('inscription.saveFiliere');
+Route::get('/inscription/filiere', [InscriptionFiliereController::class, 'index'])
+    ->name('inscription.filiere');
+
+Route::post('/inscription/campus/{id}', [InscriptionFiliereController::class, 'selectCampus'])
+    ->name('inscription.selectCampus');
+
+Route::post('/inscription/cursus/{id}', [InscriptionFiliereController::class, 'selectCursus'])
+    ->name('inscription.selectCursus');
+
+Route::post('/inscription/departement/{id}', [InscriptionFiliereController::class, 'selectDepartement'])
+    ->name('inscription.selectDepartement');
+
+Route::post('/inscription/niveau/{id}', [InscriptionFiliereController::class, 'selectNiveau'])
+    ->name('inscription.selectNiveau');
+
+Route::post('/inscription/filiere/save', [InscriptionFiliereController::class, 'save'])
+    ->name('inscription.saveFiliere');
