@@ -223,6 +223,17 @@ Route::post('/inscription/filiere/save', [InscriptionFiliereController::class, '
     Route::post('profil/photo', [EtudiantProfileController::class, 'updatePhoto'])->name('profil.update.photo');
     Route::put('profil/informations', [EtudiantProfileController::class, 'updateInformations'])->name('profil.update.informations');
     Route::put('profil/password', [EtudiantProfileController::class, 'updatePassword'])->name('profil.update.password');
+
+    Route::get('/notifications', [EtudiantController::class, 'notificationsIndex'])->name('etudiant.notifications.index');
+
+        Route::post('/notifications/{notification}/read', [EtudiantController::class, 'markAsRead'])->name('etudiant.notifications.read');
+
+        Route::get('/notifications/create', [EtudiantController::class, 'createNotification'])->name('etudiant.notifications.create');
+
+        Route::post('/notifications/store', [EtudiantController::class, 'storeNotification'])->name('etudiant.notifications.store');
 });
+Route::get('/favoris',[EtudiantController::class, 'favorisIndex'])->name('etudiant.favoris.index');
+
+    Route::post('/favoris/toggle',[EtudiantController::class, 'toggleFavori'])->name('etudiant.favoris.toggle');
 
 

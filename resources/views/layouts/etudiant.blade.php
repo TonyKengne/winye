@@ -82,15 +82,15 @@
                         <i class="bi bi-gem me-2"></i> Abonnement Premium
                     </a>
 
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="{{ route('etudiant.favoris.index') }}">
                         <i class="bi bi-heart me-2 text-danger"></i> Favoris
                     </a>
 
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="{{ route('etudiant.notifications.index') }}">
                         <i class="bi bi-bell me-2"></i> Notifications
                     </a>
 
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="{{ route('etudiant.notifications.create') }}">
                         <i class="bi bi-envelope me-2"></i> Contacter l’administrateur
                     </a>
 
@@ -135,7 +135,7 @@
 
 
                 <li>
-                    <a href="#" class="nav-link custom-link">
+                    <a href="{{ route('etudiant.favoris.index') }}" class="nav-link custom-link">
                         <i class="bi bi-heart-fill text-danger me-1"></i> Favoris
                     </a>
                 </li>
@@ -147,13 +147,13 @@
                 </li>
 
                 <li>
-                    <a href="#" class="nav-link custom-link">
+                    <a href="{{ route('etudiant.notifications.index') }}" class="nav-link custom-link">
                         <i class="bi bi-bell me-1"></i> Notifications
                     </a>
                 </li>
 
                 <li>
-                    <a href="#" class="nav-link custom-link">
+                    <a href="{{ route('etudiant.notifications.create') }}" class="nav-link custom-link">
                         <i class="bi bi-envelope me-1"></i> Contact
                     </a>
                 </li>

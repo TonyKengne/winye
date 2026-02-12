@@ -8,6 +8,7 @@ use App\Models\Corrige;
 use App\Models\Favori;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use App\Models\Notification;
 
 class EtudiantController extends Controller
 {
@@ -53,6 +54,108 @@ class EtudiantController extends Controller
 
     return back();
 }
+
+// INDEX NOTIFICATIONS
+
+public function notificationsIndex()
+{
+    $utilisateurId = session('compte_utilisateur_id');
+
+    $notifications = Notification::where('compte_utilisateur_id', $utilisateurId)
+        ->latest()
+        ->get();
+
+    return view('etudiant.notifications.index', compact('notifications'));
+}
+
+
+// MARQUER COMME LU
+
+public function markAsRead(Notification $notification)
+{
+    $utilisateurId = session('compte_utilisateur_id');
+
+    if ($notification->utilisateur_id == $utilisateurId) {
+        $notification->update([
+            'is_lu' => true
+        ]);
+    }
+
+    return back()->with('success', 'Notification marquée comme lue.');
+}
+
+
+// FORMULAIRE CONTACT ADMIN
+
+public function createNotification()
+{
+    return view('etudiant.notifications.create');
+}
+
+
+// ENVOYER MESSAGE ADMIN
+
+public function storeNotification(Request $request)
+{
+    $request->validate([
+        'titre' => 'required',
+        'message' => 'required'
+    ]);
+
+    Notification::create([
+        'utilisateur_id' => session('compte_utilisateur_id'),
+        'titre' => $request->titre,
+        'message' => $request->message,
+        'is_lu' => false,
+        'type' => 'info' // si tu as un champ type
+    ]);
+
+    return redirect()->route('etudiant.notifications.index')
+        ->with('success', 'Message envoyé à l’administrateur.');
+}
+
+public function favorisIndex()
+{
+    $userId = session('compte_utilisateur_id'); // ton id en session
+
+    $sujets = Sujet::join('favoris', function ($join) {
+            $join->on('favoris.favorisable_id', '=', 'sujets.id')
+                 ->where('favoris.favorisable_type', '=', \App\Models\Sujet::class);
+        })
+        ->where('favoris.utilisateur_id', $userId)
+        ->with(['matiere', 'corrige'])
+        ->orderByDesc('favoris.created_at')
+        ->select('sujets.*')
+        ->get();
+
+    return view('etudiant.favoris.index', compact('sujets'));
+}
+
+
+
+public function toggleFavori(Request $request)
+{
+    $userId = session('compte_utilisateur_id');
+    $sujetId = $request->sujet_id;
+
+    $exists = \DB::table('favoris')
+        ->where('compte_utilisateur_id', $userId)
+        ->where('sujet_id', $sujetId)
+        ->exists();
+
+    if ($exists) {
+        \DB::table('favoris')
+            ->where('compte_utilisateur_id', $userId)
+            ->where('sujet_id', $sujetId)
+            ->delete();
+
+        return response()->json(['removed' => true]);
+    }
+
+    return response()->json(['removed' => false]);
+}
+
+
 
 
 }
