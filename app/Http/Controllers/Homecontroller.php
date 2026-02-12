@@ -6,20 +6,14 @@ use Illuminate\Http\Request;
 use App\Models\Sujet;
 use App\Models\Filiere;
 use App\Models\Matiere;
-use App\Models\Corrige; // <-- important pour utiliser Corrige::STATUT_VALIDE
 
 class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        // Query de base : sujets validés uniquement + corrigés validés
-        $query = Sujet::with([
-            'matiere.filieres',
-            'matiere.niveau',
-            'corriges' => function($q) {
-                $q->where('statut', Corrige::STATUT_VALIDE);
-            }
-        ])->where('statut', 'valide');
+        // Query de base : sujets validés uniquement
+        $query = Sujet::with(['matiere.filieres', 'matiere.niveau', 'corrige'])
+            ->where('statut', 'valide');
 
         // Filtres dynamiques
         if ($request->filled('annee')) {

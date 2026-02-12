@@ -34,9 +34,9 @@ class Sujet extends Model
     {
         return $this->belongsToMany(Filiere::class, 'filiere_sujet');
     }
-    public function corriges()
+    public function corrige()
     {
-        return $this->hasMany(Corrige::class, 'sujet_id');
+        return $this->hasOne(Corrige::class, 'sujet_id');
     }
     
     public function audits()

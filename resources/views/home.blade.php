@@ -663,11 +663,13 @@
                             {{ $sujet->titre }}
                             <span class="badge-type">{{ $sujet->type }}</span>
                         </h3>
-                        @if($sujet->corriges->where('statut', 'valide')->count() > 0)
+                        
+                        @if($sujet->corrige && $sujet->corrige->statut === 'valide')
                             <span class="badge-success">
                                 <i class="fas fa-check-circle me-1"></i>Corrigé disponible
                             </span>
                         @endif
+
                     </div>
                     <div class="sujet-body">
                         <p><strong>Année:</strong> <span>{{ $sujet->annee_academique }}</span></p>
