@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\admin\InscriptionController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\admin\DocumentController;   
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfilController;
@@ -18,6 +19,7 @@ use App\Http\Controllers\Admin\SujetValidationController;
 use App\Http\Controllers\Admin\CorrigeValidationController;
 use App\Models\Cursus;
 use App\Models\Departement;
+use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\enseignant\EnseignantController;
 use App\Http\Controllers\Enseignant\SujetController as EnseignantSujetController;
 use App\Http\Controllers\Enseignant\CorrigeController as EnseignantCorrigeController;
@@ -30,6 +32,22 @@ use App\Http\Controllers\Etudiant\EtudiantProfileController;
 Route::get('/', function () {
     return view('welcome');
 });
+/*
+|--------------------------------------------------------------------------
+| Routes pour la page d'accueil
+|--------------------------------------------------------------------------
+*/
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// ============================
+// 🔹Recuperation mot de passe
+// ============================
+
+Route::get('/password/recover', [PasswordResetController::class, 'showRecoverForm'])->name('password.recover');
+Route::post('/password/recover', [PasswordResetController::class, 'verifyUser'])->name('password.recover.verify');
+Route::post('/password/reset', [PasswordResetController::class, 'resetPassword'])->name('password.reset');
+
+
 
 // =======================
 // 🔹 Authentification
