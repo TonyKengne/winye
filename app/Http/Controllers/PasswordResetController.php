@@ -4,57 +4,75 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CompteUtilisateur;
+use App\Models\Utilisateur;
 use Illuminate\Support\Facades\Hash;
 
 class PasswordResetController extends Controller
 {
-    // Formulaire de récupération
+    /**
+     * Affiche le formulaire de récupération
+     */
     public function showRecoverForm()
     {
+        // Vue pour entrer email, nom, prénom, matricule
         return view('auth.password_recover');
     }
 
-    // Vérification des informations
-    public function verifyUser(Request $request)
+    public function showResetForm($id)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'nom' => 'required|string',
-            'prenom' => 'required|string',
-            'matricule' => 'nullable|string',
-        ]);
-
-        $query = CompteUtilisateur::where('email', $request->email)
-            ->whereHas('utilisateur', function($q) use ($request) {
-                $q->where('nom', $request->nom)
-                  ->where('prenom', $request->prenom);
-
-                if ($request->filled('matricule')) {
-                    $q->where('matricule', $request->matricule);
-                }
-            });
-
-        $user = $query->first();
-
-        if (!$user) {
-            return back()->withErrors(['error' => 'Les informations fournies ne correspondent à aucun utilisateur.']);
-        }
-
-        return view('auth.password_reset', compact('user'));
+        // Vue pour entrer le nouveau mot de passe
+        return view('auth.password_reset', ['user_id' => $id]);
     }
 
-    // Réinitialisation du mot de passe
+
+    /**
+     * Vérifie les informations saisies par l'utilisateur
+     */
+    public function verify(Request $request)
+    {
+        $request->validate([
+            'email'     => 'required|email',
+            'nom'       => 'required|string',
+            'prenom'    => 'required|string',
+            'matricule' => 'nullable|string',
+        ]);
+    
+        // Chercher le compte par email
+        $compte = CompteUtilisateur::where('email', $request->email)->first();
+    
+        if ($compte && $compte->utilisateur) {
+            $utilisateur = $compte->utilisateur;
+    
+            // Vérifier nom, prénom, matricule
+            if (
+                $utilisateur->nom === $request->nom &&
+                $utilisateur->prenom === $request->prenom &&
+                (!$request->matricule || $utilisateur->matricule === $request->matricule)
+            ) {
+                return redirect()->route('password.reset.form', ['id' => $compte->id])
+                    ->with('success', 'Utilisateur trouvé, vous pouvez réinitialiser votre mot de passe.');
+            }
+        }
+    
+        return back()->withErrors(['email' => 'Aucun utilisateur correspondant trouvé.']);
+    }
+    
+
+    /**
+     * Réinitialise le mot de passe
+     */
     public function resetPassword(Request $request)
     {
         $request->validate([
-            'user_id' => 'required|integer',
+            'user_id'  => 'required|integer',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        $user = CompteUtilisateur::findOrFail($request->user_id);
-        $user->password = Hash::make($request->password);
-        $user->save();
+        $compte = CompteUtilisateur::findOrFail($request->user_id);
+        $compte->password = Hash::make($request->password);
+        $compte->save();
 
-        return redirect()->route('login')->with('success', 'Mot de passe changé avec succès. Vous pouvez vous connecter.');
+        return redirect()->route('login')
+            ->with('success', 'Mot de passe changé avec succès. Vous pouvez vous connecter.');
     }
 }

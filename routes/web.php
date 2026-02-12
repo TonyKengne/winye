@@ -42,9 +42,12 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // ============================
 
 Route::get('/password/recover', [PasswordResetController::class, 'showRecoverForm'])->name('password.recover');
-Route::post('/password/recover', [PasswordResetController::class, 'verifyUser'])->name('password.recover.verify');
-Route::post('/password/reset', [PasswordResetController::class, 'resetPassword'])->name('password.reset');
 
+Route::post('/password/recover/verify', [PasswordResetController::class, 'verify'])->name('password.recover.verify');
+
+Route::get('/password/reset/{id}', [PasswordResetController::class, 'showResetForm'])->name('password.reset.form');
+
+Route::post('/password/reset', [PasswordResetController::class, 'resetPassword'])->name('password.reset');
 
 
 // =======================
