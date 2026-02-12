@@ -37,5 +37,10 @@ class Utilisateur extends Model
     {
         return $this->belongsTo(Filiere::class);
     }
+    public function favoris()
+{
+    return $this->hasMany(Favori::class);
+}
+
 
 }
