@@ -135,7 +135,7 @@
 
             <!-- Mot de passe oublié -->
             <div class="text-center mb-3">
-                <a href="#">Mot de passe oublié ?</a>
+            <a href="{{ route('password.recover') }}">Mot de passe oublié ?</a>
             </div>
 
             <!-- Inscription -->
