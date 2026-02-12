@@ -24,6 +24,12 @@ class Filiere extends Model
     {
         return $this->hasMany(Utilisateur::class);
     }
+    
+    public function niveau()
+    {
+        return $this->belongsTo(Niveau::class, 'niveau_id');
+    }
+
 
     public function matieres()
     {

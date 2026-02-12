@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Models\Utilisateur;
 use App\Models\CompteUtilisateur;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
