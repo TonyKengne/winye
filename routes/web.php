@@ -8,10 +8,19 @@ use App\Http\Controllers\admin\DocumentController;   // ✅ import manquant
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\enseignant\EnseignantController;
+use App\Http\Controllers\HomeController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Routes pour la page d'accueil
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // =======================
 // 🔹 Authentification
